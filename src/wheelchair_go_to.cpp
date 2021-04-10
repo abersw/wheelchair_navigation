@@ -13,10 +13,13 @@
 #include <sstream>
 using namespace std;
 
-const int DEBUG_main = 1;
+const bool DEBUG_userInstructionCallback = 1;
+const bool DEBUG_main = 0;
 
 void userInstructionCallback(const std_msgs::String userInstructionMsg) {
-    cout << userInstructionMsg.data << endl;
+    if (DEBUG_userInstructionCallback) {
+        cout << userInstructionMsg.data << endl;
+    }
 }
 
 /**
