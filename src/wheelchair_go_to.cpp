@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ros/ros.h" //main ROS library
+#include "wheelchair_msgs/roomToObjects.h" //assign rooms to objects
+#include "wheelchair_msgs/objectLocations.h" //translations of all objects
 #include "std_msgs/String.h" //ROS msg type string
 #include <sstream>
 using namespace std;
@@ -48,6 +50,26 @@ void userInstructionCallback(const std_msgs::String userInstructionMsg) {
 }
 
 /**
+ * Callback function triggered by assigned room to objects list 
+ *
+ * @param parameter 'room2obj' is a roomToObjects msg of the objects which have rooms assigned from wheelchair_dacop
+ *        message belongs to wheelchair_msgs::roomToObjects
+ */
+void roomObjectCallback(const wheelchair_msgs::roomToObjects room2obj) {
+    //add code
+}
+
+/**
+ * Callback function triggered by list of all objects 
+ *
+ * @param parameter 'objLoc' is a objectLocations msg of the objects and associated transforms from wheelchair_dacop
+ *        message belongs to wheelchair_msgs::objectLocations
+ */
+void objectLocationsCallback(const wheelchair_msgs::objectLocations objLoc) {
+    //add code
+}
+
+/**
  * Main function that contains ROS info, subscriber callback trigger and while loop to get room name
  *
  * @param argc - number of arguments
@@ -58,6 +80,8 @@ int main(int argc, char** argv) {
     ros::init(argc, argv, "wheelchair_go_to");
     ros::NodeHandle nodeHandler;
     ros::Subscriber userInstruction_sub = nodeHandler.subscribe("/wheelchair_robot/user/instruction", 10, userInstructionCallback);
+    ros::Subscriber assign_room_object_sub = nodeHandler.subscribe("/wheelchair_robot/dacop/assign_room_to_object/objects", 10, roomObjectCallback);
+    ros::Subscriber object_locations_sub = nodeHandler.subscribe("/wheelchair_robot/dacop/publish_object_locations/objects", 10, objectLocationsCallback);
     ros::Rate rate(1.0);
 
     while (ros::ok()) {
