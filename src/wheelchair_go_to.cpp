@@ -16,10 +16,20 @@ using namespace std;
 const bool DEBUG_userInstructionCallback = 1;
 const bool DEBUG_main = 0;
 
-void userInstructionCallback(const std_msgs::String userInstructionMsg) {
-    if (DEBUG_userInstructionCallback) {
-        cout << userInstructionMsg.data << endl;
+void testFindUserInstruction(std::string userInstructionRaw) {
+    const string test_userInstruction = "take me to the oven";
+    std::size_t foundIt = test_userInstruction.find(userInstructionRaw);
+    if (foundIt!=std::string::npos) { //if string is not found
+        std::cout << "found at: " << foundIt << '\n'; //point to start of string
     }
+}
+
+void userInstructionCallback(const std_msgs::String userInstructionMsg) {
+    std::string userInstructionRaw = userInstructionMsg.data;
+    if (DEBUG_userInstructionCallback) {
+        cout << userInstructionRaw << endl;
+    }
+    testFindUserInstruction(userInstructionRaw);
 }
 
 /**
