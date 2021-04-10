@@ -13,9 +13,16 @@
 #include <sstream>
 using namespace std;
 
+const bool DEBUG_testFindUserInstruction = 0;
 const bool DEBUG_userInstructionCallback = 1;
 const bool DEBUG_main = 0;
 
+/**
+ * Test function for finding strings within a long string 
+ *
+ * @param parameter 'userInstructionRaw' is a string of the user's intention from the userInstructionCallback function
+ *        param belongs to std::string
+ */
 void testFindUserInstruction(std::string userInstructionRaw) {
     const string test_userInstruction = "take me to the oven";
     std::size_t foundIt = test_userInstruction.find(userInstructionRaw);
@@ -24,12 +31,20 @@ void testFindUserInstruction(std::string userInstructionRaw) {
     }
 }
 
+/**
+ * Main callback function triggered by received user instruction topic 
+ *
+ * @param parameter 'userInstructionMsg' is a string of the user's intention from wheelchair_interface
+ *        message belongs to std_msgs::String
+ */
 void userInstructionCallback(const std_msgs::String userInstructionMsg) {
     std::string userInstructionRaw = userInstructionMsg.data;
     if (DEBUG_userInstructionCallback) {
         cout << userInstructionRaw << endl;
     }
-    testFindUserInstruction(userInstructionRaw);
+    if (DEBUG_testFindUserInstruction) {
+        testFindUserInstruction(userInstructionRaw);
+    }
 }
 
 /**
