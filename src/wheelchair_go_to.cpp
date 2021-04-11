@@ -69,6 +69,7 @@ int totalRoomObjectLinkStruct = 0;
 struct Decisions {
     int id;
     string name;
+    float confidence;
 
     float point_x;
     float point_y;
@@ -123,12 +124,31 @@ void findObjectAndRoom(std::string userInstructionRaw) {
     }
     totalRoomDecisionStruct = roomFoundCount; //set matches found to total matches
 
-    //check to see if there is more than one room in user instruction
     if (totalRoomDecisionStruct == 0) { //if there is no room detected in user instruction
         //if there are no rooms in user instruction, add all objects in user instruction, dacop publish topic
+        int objectFoundCount = 0;
+        for (int isObject = 0; isObject < totalObjectsFileStruct; isObject++) { //iterate through entire objects struct
+            std::string getObjectName = objectsFileStruct[isObject].object_name; //get object name from struct
+            std::size_t foundObjectMatch = userInstructionRaw.find(getObjectName); //search for corresponding object name
+            if (foundObjectMatch != std::string::npos) { //if match is found
+                objectDecisionStruct[objectFoundCount].id = objectsFileStruct[isObject].id;
+                objectDecisionStruct[objectFoundCount].name = objectsFileStruct[isObject].object_name;
+                objectDecisionStruct[objectFoundCount].confidence = objectsFileStruct[isObject].object_confidence;
 
+                objectDecisionStruct[objectFoundCount].point_x = objectsFileStruct[isObject].point_x;
+                objectDecisionStruct[objectFoundCount].point_y = objectsFileStruct[isObject].point_y;
+                objectDecisionStruct[objectFoundCount].point_z = objectsFileStruct[isObject].point_z;
+
+                objectDecisionStruct[objectFoundCount].quat_x = objectsFileStruct[isObject].quat_x;
+                objectDecisionStruct[objectFoundCount].quat_y = objectsFileStruct[isObject].quat_y;
+                objectDecisionStruct[objectFoundCount].quat_z = objectsFileStruct[isObject].quat_z;
+                objectDecisionStruct[objectFoundCount].quat_w = objectsFileStruct[isObject].quat_w;
+                objectFoundCount++; //add 1 to found matches
+            }
+        }
+        totalObjectDecisionStruct = objectFoundCount;
     }
-    if (totalRoomDecisionStruct == 1) {
+    if (totalRoomDecisionStruct == 1) { //if a room has been identified, reduce list of objects
         //if room has been listed, only list objects with associated room - linkage topic
     }
 }
