@@ -66,6 +66,25 @@ struct RoomObjectLinks {
 struct RoomObjectLinks roomObjectLinkStruct[100000]; //array for storing all object and room data
 int totalRoomObjectLinkStruct = 0;
 
+struct RoomObjectLinks roomObjectDecisionStruct[10000]; //array for storing possible objects to navigate to
+int totalRoomObjectDecisionStruct = 0;
+
+struct Decisions {
+    int id;
+    string name;
+
+    float point_x;
+    float point_y;
+    float point_z;
+
+    float quat_x;
+    float quat_y;
+    float quat_z;
+    float quat_w;
+};
+
+struct Decisions navigateToDecision;
+
 /**
  * Test function for finding strings within a long string 
  *
@@ -94,6 +113,8 @@ void userInstructionCallback(const std_msgs::String userInstructionMsg) {
     if (DEBUG_testFindUserInstruction) {
         testFindUserInstruction(userInstructionRaw);
     }
+
+    //search for struct object/room name in user string, then add them to a struct
 }
 
 /**
