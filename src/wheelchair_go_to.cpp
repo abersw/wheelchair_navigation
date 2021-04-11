@@ -182,7 +182,23 @@ void roomLocationsCallback(const wheelchair_msgs::roomLocations roomLoc) {
  *        message belongs to wheelchair_msgs::roomToObjects
  */
 void roomObjectCallback(const wheelchair_msgs::roomToObjects room2obj) {
-    //add code
+    totalRoomObjectLinkStruct = room2obj.totalObjects;
+    for (int isLink = 0; isLink < totalRoomObjectLinkStruct; isLink++) {
+        roomObjectLinkStruct[isLink].object_id = room2obj.object_id[isLink];
+        roomObjectLinkStruct[isLink].object_name = room2obj.object_name[isLink];
+
+        roomObjectLinkStruct[isLink].room_id = room2obj.room_id[isLink];
+        roomObjectLinkStruct[isLink].room_name = room2obj.room_name[isLink];
+
+        if (DEBUG_roomObjectCallback) {
+            cout << 
+            roomObjectLinkStruct[isLink].object_id << ", " << 
+            roomObjectLinkStruct[isLink].object_name << ", " << 
+
+            roomObjectLinkStruct[isLink].room_id << ", " << 
+            roomObjectLinkStruct[isLink].room_name << endl;
+        }
+    }
 }
 
 /**
