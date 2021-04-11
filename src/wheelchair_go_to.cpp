@@ -10,6 +10,7 @@
 #include <string.h>
 #include "ros/ros.h" //main ROS library
 #include "wheelchair_msgs/roomToObjects.h" //assign rooms to objects
+#include "wheelchair_msgs/roomLocations.h" //translations of rooms
 #include "wheelchair_msgs/objectLocations.h" //translations of all objects
 #include "std_msgs/String.h" //ROS msg type string
 #include <sstream>
@@ -18,6 +19,49 @@ using namespace std;
 const bool DEBUG_testFindUserInstruction = 0;
 const bool DEBUG_userInstructionCallback = 1;
 const bool DEBUG_main = 0;
+
+struct Objects { //struct for publishing topic
+    int id; //get object id from ros msg
+    string object_name; //get object name/class
+    float object_confidence; //get object confidence
+
+    float point_x; //get transform point x
+    float point_y; //get transform point y
+    float point_z; //get transform point z
+
+    float quat_x; //get transform rotation quaternion x
+    float quat_y; //get transform rotation quaternion y
+    float quat_z; //get transform rotation quaternion z
+    float quat_w; //get transform rotation quaternion w
+};
+struct Objects objectsFileStruct[100000]; //array for storing object data
+int totalObjectsFileStruct = 0; //total objects inside struct
+
+struct Rooms {
+    int room_id;
+    string room_name;
+
+    double point_x; //get transform point x
+    double point_y; //get transform point y
+    double point_z; //get transform point z
+
+    double quat_x; //get transform rotation quaternion x
+    double quat_y; //get transform rotation quaternion y
+    double quat_z; //get transform rotation quaternion z
+    double quat_w; //get transform rotation quaternion w
+};
+struct Rooms roomsFileStruct[1000];
+int totalRoomsFileStruct = 0;
+
+struct RoomObjectLinks {
+    int object_id;
+    string object_name;
+
+    int room_id;
+    string room_name;
+};
+struct RoomObjectLinks roomObjectLinkStruct[100000]; //array for storing all object and room data
+int totalRoomObjectLinkStruct = 0;
 
 /**
  * Test function for finding strings within a long string 
