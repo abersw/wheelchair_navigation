@@ -144,7 +144,35 @@ void objectLocationsCallback(const wheelchair_msgs::objectLocations objLoc) {
  *        message belongs to wheelchair_msgs::roomLocations
  */
 void roomLocationsCallback(const wheelchair_msgs::roomLocations roomLoc) {
-    //add code
+    totalRoomsFileStruct = roomLoc.totalRooms;
+    for (int isRoom = 0; isRoom < totalRoomsFileStruct; isRoom++) {
+        roomsFileStruct[isRoom].room_id = roomLoc.id[isRoom];
+        roomsFileStruct[isRoom].room_name = roomLoc.room_name[isRoom];
+
+        roomsFileStruct[isRoom].point_x = roomLoc.point_x[isRoom];
+        roomsFileStruct[isRoom].point_y = roomLoc.point_y[isRoom];
+        roomsFileStruct[isRoom].point_z = roomLoc.point_z[isRoom];
+
+        roomsFileStruct[isRoom].quat_x = roomLoc.quat_x[isRoom];
+        roomsFileStruct[isRoom].quat_y = roomLoc.quat_y[isRoom];
+        roomsFileStruct[isRoom].quat_z = roomLoc.quat_z[isRoom];
+        roomsFileStruct[isRoom].quat_w = roomLoc.quat_w[isRoom];
+
+        if (DEBUG_roomLocationsCallback) {
+            cout << 
+            roomsFileStruct[isRoom].room_id << ", " << 
+            roomsFileStruct[isRoom].room_name << ", " << 
+            
+            roomsFileStruct[isRoom].point_x << ", " << 
+            roomsFileStruct[isRoom].point_y << ", " << 
+            roomsFileStruct[isRoom].point_z << ", " << 
+
+            roomsFileStruct[isRoom].quat_x << ", " << 
+            roomsFileStruct[isRoom].quat_y << ", " << 
+            roomsFileStruct[isRoom].quat_z << ", " << 
+            roomsFileStruct[isRoom].quat_w << endl;
+        }
+    }
 }
 
 /**
