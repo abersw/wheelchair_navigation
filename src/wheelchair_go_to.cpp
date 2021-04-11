@@ -18,6 +18,9 @@ using namespace std;
 
 const bool DEBUG_testFindUserInstruction = 0;
 const bool DEBUG_userInstructionCallback = 1;
+const bool DEBUG_objectLocationsCallback = 0;
+const bool DEBUG_roomLocationsCallback = 0;
+const bool DEBUG_roomObjectCallback = 0;
 const bool DEBUG_main = 0;
 
 struct Objects { //struct for publishing topic
@@ -100,7 +103,38 @@ void userInstructionCallback(const std_msgs::String userInstructionMsg) {
  *        message belongs to wheelchair_msgs::objectLocations
  */
 void objectLocationsCallback(const wheelchair_msgs::objectLocations objLoc) {
-    //add code
+    totalObjectsFileStruct = objLoc.totalObjects;
+    for (int isObject = 0; isObject < totalObjectsFileStruct; isObject++) {
+        objectsFileStruct[isObject].id = objLoc.id[isObject];
+        objectsFileStruct[isObject].object_name = objLoc.object_name[isObject];
+        objectsFileStruct[isObject].object_confidence = objLoc.object_confidence[isObject];
+
+        objectsFileStruct[isObject].point_x = objLoc.point_x[isObject];
+        objectsFileStruct[isObject].point_y = objLoc.point_y[isObject];
+        objectsFileStruct[isObject].point_z = objLoc.point_z[isObject];
+
+        objectsFileStruct[isObject].quat_x = objLoc.quat_x[isObject];
+        objectsFileStruct[isObject].quat_y = objLoc.quat_y[isObject];
+        objectsFileStruct[isObject].quat_z = objLoc.quat_z[isObject];
+        objectsFileStruct[isObject].quat_w = objLoc.quat_w[isObject];
+
+        if (DEBUG_objectLocationsCallback) {
+            cout << 
+            objectsFileStruct[isObject].id << ", " << 
+            objectsFileStruct[isObject].object_name << ", " << 
+            objectsFileStruct[isObject].object_confidence << ", " << 
+            
+            objectsFileStruct[isObject].point_x << ", " << 
+            objectsFileStruct[isObject].point_y << ", " << 
+            objectsFileStruct[isObject].point_z << ", " << 
+
+            objectsFileStruct[isObject].quat_x << ", " << 
+            objectsFileStruct[isObject].quat_y << ", " << 
+            objectsFileStruct[isObject].quat_z << ", " << 
+            objectsFileStruct[isObject].quat_w << endl;
+        }
+    }
+    
 }
 
 /**
