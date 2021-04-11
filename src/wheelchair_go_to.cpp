@@ -94,16 +94,6 @@ void userInstructionCallback(const std_msgs::String userInstructionMsg) {
 }
 
 /**
- * Callback function triggered by assigned room to objects list 
- *
- * @param parameter 'room2obj' is a roomToObjects msg of the objects which have rooms assigned from wheelchair_dacop
- *        message belongs to wheelchair_msgs::roomToObjects
- */
-void roomObjectCallback(const wheelchair_msgs::roomToObjects room2obj) {
-    //add code
-}
-
-/**
  * Callback function triggered by list of all objects 
  *
  * @param parameter 'objLoc' is a objectLocations msg of the objects and associated transforms from wheelchair_dacop
@@ -120,6 +110,16 @@ void objectLocationsCallback(const wheelchair_msgs::objectLocations objLoc) {
  *        message belongs to wheelchair_msgs::roomLocations
  */
 void roomLocationsCallback(const wheelchair_msgs::roomLocations roomLoc) {
+    //add code
+}
+
+/**
+ * Callback function triggered by assigned room to objects list 
+ *
+ * @param parameter 'room2obj' is a roomToObjects msg of the objects which have rooms assigned from wheelchair_dacop
+ *        message belongs to wheelchair_msgs::roomToObjects
+ */
+void roomObjectCallback(const wheelchair_msgs::roomToObjects room2obj) {
     //add code
 }
 
