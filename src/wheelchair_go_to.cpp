@@ -66,9 +66,6 @@ struct RoomObjectLinks {
 struct RoomObjectLinks roomObjectLinkStruct[100000]; //array for storing all object and room data
 int totalRoomObjectLinkStruct = 0;
 
-struct RoomObjectLinks roomObjectDecisionStruct[10000]; //array for storing possible objects to navigate to
-int totalRoomObjectDecisionStruct = 0;
-
 struct Decisions {
     int id;
     string name;
@@ -84,6 +81,10 @@ struct Decisions {
 };
 
 struct Decisions navigateToDecision;
+struct Decisions objectDecisionStruct[10000]; //array for storing possible objects to navigate to
+struct Decisions roomDecisionStruct[1000]; //array for storing possible rooms to navigate to
+int totalObjectDecisionStruct = 0;
+int totalRoomDecisionStruct = 0;
 
 /**
  * Test function for finding strings within a long string 
@@ -96,6 +97,39 @@ void testFindUserInstruction(std::string userInstructionRaw) {
     std::size_t foundIt = test_userInstruction.find(userInstructionRaw);
     if (foundIt!=std::string::npos) { //if string is not found
         std::cout << "found at: " << foundIt << '\n'; //point to start of string
+    }
+}
+
+void findObjectAndRoom(std::string userInstructionRaw) {
+    //check to see if room name exists in user instruction
+    int roomFoundCount = 0;
+    for (int isRoom = 0; isRoom < totalRoomsFileStruct; isRoom++) { //iterate through rooms struct
+        std::string getRoomName = roomsFileStruct[isRoom].room_name; //get room name from struct
+        std::size_t foundRoomMatch = userInstructionRaw.find(getRoomName); //search for corresponding room name
+        if (foundRoomMatch != std::string::npos) { //if match is found
+            roomDecisionStruct[roomFoundCount].id = roomsFileStruct[isRoom].room_id;
+            roomDecisionStruct[roomFoundCount].name = roomsFileStruct[isRoom].room_name;
+
+            roomDecisionStruct[roomFoundCount].point_x = roomsFileStruct[isRoom].point_x;
+            roomDecisionStruct[roomFoundCount].point_y = roomsFileStruct[isRoom].point_y;
+            roomDecisionStruct[roomFoundCount].point_z = roomsFileStruct[isRoom].point_z;
+
+            roomDecisionStruct[roomFoundCount].quat_x = roomsFileStruct[isRoom].quat_x;
+            roomDecisionStruct[roomFoundCount].quat_y = roomsFileStruct[isRoom].quat_y;
+            roomDecisionStruct[roomFoundCount].quat_z = roomsFileStruct[isRoom].quat_z;
+            roomDecisionStruct[roomFoundCount].quat_w = roomsFileStruct[isRoom].quat_w;
+            roomFoundCount++; //add 1 to found matches
+        }
+    }
+    totalRoomDecisionStruct = roomFoundCount; //set matches found to total matches
+
+    //check to see if there is more than one room in user instruction
+    if (totalRoomDecisionStruct == 0) { //if there is no room detected in user instruction
+        //if there are no rooms in user instruction, add all objects in user instruction, dacop publish topic
+
+    }
+    if (totalRoomDecisionStruct == 1) {
+        //if room has been listed, only list objects with associated room - linkage topic
     }
 }
 
@@ -115,6 +149,7 @@ void userInstructionCallback(const std_msgs::String userInstructionMsg) {
     }
 
     //search for struct object/room name in user string, then add them to a struct
+    findObjectAndRoom(userInstructionRaw);
 }
 
 /**
