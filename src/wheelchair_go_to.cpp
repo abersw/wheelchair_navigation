@@ -114,6 +114,16 @@ void objectLocationsCallback(const wheelchair_msgs::objectLocations objLoc) {
 }
 
 /**
+ * Callback function triggered by list of all rooms 
+ *
+ * @param parameter 'roomLoc' is a roomLocations msg of the rooms and associated transforms from wheelchair_dacop
+ *        message belongs to wheelchair_msgs::roomLocations
+ */
+void roomLocationsCallback(const wheelchair_msgs::roomLocations roomLoc) {
+    //add code
+}
+
+/**
  * Main function that contains ROS info, subscriber callback trigger and while loop to get room name
  *
  * @param argc - number of arguments
@@ -126,6 +136,7 @@ int main(int argc, char** argv) {
     ros::Subscriber userInstruction_sub = nodeHandler.subscribe("/wheelchair_robot/user/instruction", 10, userInstructionCallback);
     ros::Subscriber assign_room_object_sub = nodeHandler.subscribe("/wheelchair_robot/dacop/assign_room_to_object/objects", 10, roomObjectCallback);
     ros::Subscriber object_locations_sub = nodeHandler.subscribe("/wheelchair_robot/dacop/publish_object_locations/objects", 10, objectLocationsCallback);
+    ros::Subscriber room_locations_sub = nodeHandler.subscribe("/wheelchair_robot/dacop/assign_room_to_object/rooms", 10, roomLocationsCallback);
     ros::Rate rate(1.0);
 
     while (ros::ok()) {
