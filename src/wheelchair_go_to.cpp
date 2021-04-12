@@ -103,7 +103,8 @@ void testFindUserInstruction(std::string userInstructionRaw) {
 
 void findObjectAndRoom(std::string userInstructionRaw) {
     //check to see if room name exists in user instruction
-    int roomFoundCount = 0;
+    int navigateToState = 0;
+    int roomFoundCount = 0; //array position variable when a room has been matched
     for (int isRoom = 0; isRoom < totalRoomsFileStruct; isRoom++) { //iterate through rooms struct
         std::string getRoomName = roomsFileStruct[isRoom].room_name; //get room name from struct
         std::size_t foundRoomMatch = userInstructionRaw.find(getRoomName); //search for corresponding room name
@@ -127,7 +128,7 @@ void findObjectAndRoom(std::string userInstructionRaw) {
 
     if (totalRoomDecisionStruct == 0) { //if there is no room detected in user instruction
         //if there are no rooms in user instruction, add all objects in user instruction, dacop publish topic
-        int objectFoundCount = 0;
+        int objectFoundCount = 0; //array position variable when an object has been matched
         for (int isObject = 0; isObject < totalObjectsFileStruct; isObject++) { //iterate through entire objects struct
             std::string getObjectName = objectsFileStruct[isObject].object_name; //get object name from struct
             std::size_t foundObjectMatch = userInstructionRaw.find(getObjectName); //search for corresponding object name
@@ -147,37 +148,57 @@ void findObjectAndRoom(std::string userInstructionRaw) {
                 objectFoundCount++; //add 1 to found matches
             }
         }
-        totalObjectDecisionStruct = objectFoundCount;
+        totalObjectDecisionStruct = objectFoundCount; //set total objects found without a room
+        navigateToState = 1; //navigate to object - no room info available
     }
+
     if (totalRoomDecisionStruct == 1) { //if a room has been identified, reduce list of objects
+        int foundObjectInUserInstruction = 0; //leave at 0 if object is not found in user instruction
+        int objectFoundCount = 0; //array position variable when an object has been matched
         //if room has been listed, only list objects with associated room - linkage topic
         for (int isRoomDecision = 0; isRoomDecision < totalRoomDecisionStruct; isRoomDecision++) { //go through entire array of rooms decided by user instruction
             //add code, although there should only be one room name applicable - look back at interface...
             int getRoomIdDecision = roomDecisionStruct[isRoomDecision].id;
             std::string getRoomNameDecision = roomDecisionStruct[isRoomDecision].name;
-            for (int isLink = 0; isLink < totalRoomObjectLinkStruct; isLink++) {
+            for (int isLink = 0; isLink < totalRoomObjectLinkStruct; isLink++) { //go through entire room object link struct
                 std::string getRoomName = roomObjectLinkStruct[isLink].room_name; //get current room name
                 if (getRoomNameDecision == getRoomName) { //if room name decision is equal to room name in link list 
                     std::string getObjectName = roomObjectLinkStruct[isLink].object_name; //get current object name
                     std::size_t foundObjectMatch = userInstructionRaw.find(getObjectName); //search for an object inside user instruction
                     if (foundObjectMatch != std::string::npos) { //if object was found in user instruction
-                        //add code here
+                        //add object and associated room to decision struct
+                        objectDecisionStruct[objectFoundCount].id = roomObjectLinkStruct[isLink].object_id;
+                        objectDecisionStruct[objectFoundCount].name = roomObjectLinkStruct[isLink].object_name;
+                        for (int isObject = 0; isObject < totalObjectsFileStruct; isObject++) { //search for object vector and quaternion
+                            if (objectDecisionStruct[objectFoundCount].id == objectsFileStruct[isObject].id) { //if object IDs match
+                                objectDecisionStruct[objectFoundCount].point_x = objectsFileStruct[isObject].point_x; //set object vector x to struct
+                                objectDecisionStruct[objectFoundCount].point_y = objectsFileStruct[isObject].point_y; //set object vector y to struct
+                                objectDecisionStruct[objectFoundCount].point_z = objectsFileStruct[isObject].point_z; //set object vector z to struct
+
+                                objectDecisionStruct[objectFoundCount].quat_x = objectsFileStruct[isObject].quat_x; //set object quaternion x to struct
+                                objectDecisionStruct[objectFoundCount].quat_y = objectsFileStruct[isObject].quat_y; //set object quaternion y to struct
+                                objectDecisionStruct[objectFoundCount].quat_z = objectsFileStruct[isObject].quat_z; //set object quaternion z to struct
+                                objectDecisionStruct[objectFoundCount].quat_w = objectsFileStruct[isObject].quat_w; //set object quaternion w to struct
+                            }
+                            else {
+                                //don't do anything if IDs don't match
+                            }
+                        }
+                        objectFoundCount++; //add 1 to array pos, for next object match
+                        foundObjectInUserInstruction = 1;
                     }
                     else { //if only room available in user instruction
-                        //nothing else we can do, so navigate to room transform
+                        //do nothing if room matches, but object doesn't match
+                        //go to next element in room object link struct
                     }
                 }
             }
         }
-        for (int isLink = 0; isLink < totalRoomObjectLinkStruct; isLink++) {
-            std::string getRoom = roomObjectLinkStruct[isLink].room_name; //get current room name
-            std::string getObject = roomObjectLinkStruct[isLink].object_name; //get current object name
-            std::size_t foundRoomMatch = userInstructionRaw.find(getRoom); //find current room name in user instruction <- this needs to be the decisions array
-            std::size_t foundObjectMatch = userInstructionRaw.find(getObject);
-            if ((foundRoomMatch != std::string::npos) && (foundObjectMatch != std::string::npos)) { //if room and object are matched
-                //add code
-
-            }
+        if (foundObjectInUserInstruction) {
+            navigateToState = 2; //navigate to object with room information
+        } 
+        else {
+            navigateToState = 3; //navigate to a room - no object info available
         }
     }
     if (totalRoomDecisionStruct > 1) { //there shouldn't be more than one room in user instruction, this should be filtered from the interface
