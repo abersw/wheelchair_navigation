@@ -204,6 +204,8 @@ void findObjectAndRoom(std::string userInstructionRaw) {
     if (totalRoomDecisionStruct > 1) { //there shouldn't be more than one room in user instruction, this should be filtered from the interface
         //what should happen if there is more than one element in room decision array?
     }
+    //start decision making code here (or in a separate function)
+    //create a variable to turn context assistance on/off
 }
 
 /**
