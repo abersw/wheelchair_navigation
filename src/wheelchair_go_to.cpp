@@ -153,6 +153,21 @@ void findObjectAndRoom(std::string userInstructionRaw) {
         //if room has been listed, only list objects with associated room - linkage topic
         for (int isRoomDecision = 0; isRoomDecision < totalRoomDecisionStruct; isRoomDecision++) { //go through entire array of rooms decided by user instruction
             //add code, although there should only be one room name applicable - look back at interface...
+            int getRoomIdDecision = roomDecisionStruct[isRoomDecision].id;
+            std::string getRoomNameDecision = roomDecisionStruct[isRoomDecision].name;
+            for (int isLink = 0; isLink < totalRoomObjectLinkStruct; isLink++) {
+                std::string getRoomName = roomObjectLinkStruct[isLink].room_name; //get current room name
+                if (getRoomNameDecision == getRoomName) { //if room name decision is equal to room name in link list 
+                    std::string getObjectName = roomObjectLinkStruct[isLink].object_name; //get current object name
+                    std::size_t foundObjectMatch = userInstructionRaw.find(getObjectName); //search for an object inside user instruction
+                    if (foundObjectMatch != std::string::npos) { //if object was found in user instruction
+                        //add code here
+                    }
+                    else { //if only room available in user instruction
+                        //nothing else we can do, so navigate to room transform
+                    }
+                }
+            }
         }
         for (int isLink = 0; isLink < totalRoomObjectLinkStruct; isLink++) {
             std::string getRoom = roomObjectLinkStruct[isLink].room_name; //get current room name
