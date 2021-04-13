@@ -101,6 +101,22 @@ void testFindUserInstruction(std::string userInstructionRaw) {
     }
 }
 
+/**
+ * Function for starting decision making process to navigate to an object 
+ *
+ * @param parameter 'navigateToState' is an int of the navigation mode from the finObjectAndRoom function
+ *        param belongs to int
+ */
+void startDecidingGoal(int navigateToState) {
+    //add code here
+}
+
+/**
+ * Function for finding all object and room matches from user instruction, and assigning a navigation mode 
+ *
+ * @param parameter 'userInstructionRaw' is a string of the user's intention from the userInstructionCallback function
+ *        param belongs to std::string
+ */
 void findObjectAndRoom(std::string userInstructionRaw) {
     //check to see if room name exists in user instruction
     int navigateToState = 0;
@@ -194,6 +210,7 @@ void findObjectAndRoom(std::string userInstructionRaw) {
                 }
             }
         }
+        totalObjectDecisionStruct = objectFoundCount;
         if (foundObjectInUserInstruction) {
             navigateToState = 2; //navigate to object with room information
         } 
@@ -206,6 +223,7 @@ void findObjectAndRoom(std::string userInstructionRaw) {
     }
     //start decision making code here (or in a separate function)
     //create a variable to turn context assistance on/off
+    startDecidingGoal(navigateToState); //pass navigate state to start decision making process.
 }
 
 /**
