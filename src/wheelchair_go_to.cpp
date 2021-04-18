@@ -160,16 +160,19 @@ void startDecidingGoal(int navigateToState) {
         case 1: //navigate to object - no room info available
             if (DEBUG_startDecidingGoal) {
                 cout << "navigate to object, no room info available" << endl;
+                cout << "total objects decided " << totalObjectDecisionStruct << endl;
             }
             break;
         case 2: //navigate to object with room information
             if (DEBUG_startDecidingGoal) {
                 cout << "navigate to object with room information" << endl;
+                cout << "total objects and room decided " << totalObjectDecisionStruct << endl;
             }
             break;
         case 3: //navigate to a room - no object info available
             if (DEBUG_startDecidingGoal) {
                 cout << "navigate to a room, no object info available" << endl;
+                cout << "total rooms decided " << totalRoomDecisionStruct << endl;
             }
             for (int isRoom = 0; isRoom < totalRoomDecisionStruct; isRoom++) {
                 navigateToDecision.id = roomDecisionStruct[isRoom].id;
@@ -186,7 +189,7 @@ void startDecidingGoal(int navigateToState) {
             }
             break;
     }
-    sendToMovebase();
+    //sendToMovebase();
 }
 
 /**
