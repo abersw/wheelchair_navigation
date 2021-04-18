@@ -108,7 +108,17 @@ void testFindUserInstruction(std::string userInstructionRaw) {
  *        param belongs to int
  */
 void startDecidingGoal(int navigateToState) {
-    //add code here
+    switch (navigateToState) {
+        case 1: //navigate to object - no room info available
+            //add code
+            break;
+        case 2: //navigate to object with room information
+            //add code
+            break;
+        case 3: //navigate to a room - no object info available
+            //add code
+            break;
+    }
 }
 
 /**
