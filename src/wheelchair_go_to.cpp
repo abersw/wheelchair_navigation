@@ -17,6 +17,8 @@
 using namespace std;
 
 const bool DEBUG_testFindUserInstruction = 0;
+const bool DEBUG_startDecidingGoal = 1;
+const bool DEBUG_findObjectAndRoom = 1;
 const bool DEBUG_userInstructionCallback = 1;
 const bool DEBUG_objectLocationsCallback = 0;
 const bool DEBUG_roomLocationsCallback = 0;
@@ -110,13 +112,19 @@ void testFindUserInstruction(std::string userInstructionRaw) {
 void startDecidingGoal(int navigateToState) {
     switch (navigateToState) {
         case 1: //navigate to object - no room info available
-            //add code
+            if (DEBUG_startDecidingGoal) {
+                cout << "navigate to object, no room info available" << endl;
+            }
             break;
         case 2: //navigate to object with room information
-            //add code
+            if (DEBUG_startDecidingGoal) {
+                cout << "navigate to object with room information" << endl;
+            }
             break;
         case 3: //navigate to a room - no object info available
-            //add code
+            if (DEBUG_startDecidingGoal) {
+                cout << "navigate to a room, no object info available" << endl;
+            }
             break;
     }
 }
@@ -147,6 +155,10 @@ void findObjectAndRoom(std::string userInstructionRaw) {
             roomDecisionStruct[roomFoundCount].quat_y = roomsFileStruct[isRoom].quat_y;
             roomDecisionStruct[roomFoundCount].quat_z = roomsFileStruct[isRoom].quat_z;
             roomDecisionStruct[roomFoundCount].quat_w = roomsFileStruct[isRoom].quat_w;
+            if (DEBUG_findObjectAndRoom) {
+                cout << "added " << roomDecisionStruct[roomFoundCount].id << ":" << roomDecisionStruct[roomFoundCount].name <<
+                " to room decision struct to pos " << roomFoundCount << endl;
+            }
             roomFoundCount++; //add 1 to found matches
         }
     }
@@ -154,6 +166,9 @@ void findObjectAndRoom(std::string userInstructionRaw) {
 
     if (totalRoomDecisionStruct == 0) { //if there is no room detected in user instruction
         //if there are no rooms in user instruction, add all objects in user instruction, dacop publish topic
+        if (DEBUG_findObjectAndRoom) {
+            cout << "no rooms detected in user instruction, add all matching objects" << endl;
+        }
         int objectFoundCount = 0; //array position variable when an object has been matched
         for (int isObject = 0; isObject < totalObjectsFileStruct; isObject++) { //iterate through entire objects struct
             std::string getObjectName = objectsFileStruct[isObject].object_name; //get object name from struct
@@ -171,6 +186,10 @@ void findObjectAndRoom(std::string userInstructionRaw) {
                 objectDecisionStruct[objectFoundCount].quat_y = objectsFileStruct[isObject].quat_y;
                 objectDecisionStruct[objectFoundCount].quat_z = objectsFileStruct[isObject].quat_z;
                 objectDecisionStruct[objectFoundCount].quat_w = objectsFileStruct[isObject].quat_w;
+                if (DEBUG_findObjectAndRoom) {
+                    cout << "added " << objectDecisionStruct[objectFoundCount].id << ":" << objectDecisionStruct[objectFoundCount].name <<
+                    " to object decision struct to pos " << objectFoundCount << endl;
+                }
                 objectFoundCount++; //add 1 to found matches
             }
         }
@@ -205,6 +224,12 @@ void findObjectAndRoom(std::string userInstructionRaw) {
                                 objectDecisionStruct[objectFoundCount].quat_y = objectsFileStruct[isObject].quat_y; //set object quaternion y to struct
                                 objectDecisionStruct[objectFoundCount].quat_z = objectsFileStruct[isObject].quat_z; //set object quaternion z to struct
                                 objectDecisionStruct[objectFoundCount].quat_w = objectsFileStruct[isObject].quat_w; //set object quaternion w to struct
+
+                                if (DEBUG_findObjectAndRoom) {
+                                    cout << "room is " << getRoomIdDecision << ":" << getRoomNameDecision << endl;
+                                    cout << "added " << objectDecisionStruct[objectFoundCount].id << ":" << objectDecisionStruct[objectFoundCount].name <<
+                                    " to object decision struct to pos " << objectFoundCount << endl;
+                                }
                             }
                             else {
                                 //don't do anything if IDs don't match
