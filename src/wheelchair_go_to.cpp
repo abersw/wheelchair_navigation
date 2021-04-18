@@ -108,6 +108,48 @@ void testFindUserInstruction(std::string userInstructionRaw) {
 }
 
 /**
+ * Function to send navigateToDecision struct to move_base goal topic for executing to path planner.
+ */
+void sendToMovebase() {
+    cout << "navigating to " << navigateToDecision.name;
+    move_base_msgs::MoveBaseActionGoal chosenGoal;
+
+    chosenGoal.header;
+    chosenGoal.header.seq = 0;
+    chosenGoal.header.stamp;
+    chosenGoal.header.stamp.sec = 0;
+    chosenGoal.header.stamp.nsec = 0;
+    chosenGoal.header.frame_id = "";
+
+    chosenGoal.goal_id;
+    chosenGoal.goal_id.stamp.sec = 0;
+    chosenGoal.goal_id.stamp.nsec = 0;
+    chosenGoal.goal_id.id;
+
+    chosenGoal.goal;
+    chosenGoal.goal.target_pose;
+    chosenGoal.goal.target_pose.header;
+    chosenGoal.goal.target_pose.header.seq = 0;
+    chosenGoal.goal.target_pose.header.stamp;
+    chosenGoal.goal.target_pose.header.stamp.sec = 0;
+    chosenGoal.goal.target_pose.header.stamp.nsec = 0;
+    chosenGoal.goal.target_pose.header.frame_id = "map";
+
+    chosenGoal.goal.target_pose.pose;
+    chosenGoal.goal.target_pose.pose.position;
+    chosenGoal.goal.target_pose.pose.position.x = navigateToDecision.point_x;
+    chosenGoal.goal.target_pose.pose.position.y = navigateToDecision.point_y;
+    chosenGoal.goal.target_pose.pose.position.z = navigateToDecision.point_z;
+    chosenGoal.goal.target_pose.pose.orientation.x = navigateToDecision.quat_x;
+    chosenGoal.goal.target_pose.pose.orientation.y = navigateToDecision.quat_y;
+    chosenGoal.goal.target_pose.pose.orientation.z = navigateToDecision.quat_z;
+    chosenGoal.goal.target_pose.pose.orientation.w = navigateToDecision.quat_w;
+
+    ptr_movebaseGoal_pub->publish(chosenGoal);
+    cout << "published goal\n";
+}
+
+/**
  * Function for starting decision making process to navigate to an object 
  *
  * @param parameter 'navigateToState' is an int of the navigation mode from the finObjectAndRoom function
@@ -129,8 +171,22 @@ void startDecidingGoal(int navigateToState) {
             if (DEBUG_startDecidingGoal) {
                 cout << "navigate to a room, no object info available" << endl;
             }
+            for (int isRoom = 0; isRoom < totalRoomDecisionStruct; isRoom++) {
+                navigateToDecision.id = roomDecisionStruct[isRoom].id;
+                navigateToDecision.name = roomDecisionStruct[isRoom].name;
+
+                navigateToDecision.point_x = roomDecisionStruct[isRoom].point_x;
+                navigateToDecision.point_y = roomDecisionStruct[isRoom].point_y;
+                navigateToDecision.point_z = roomDecisionStruct[isRoom].point_z;
+
+                navigateToDecision.quat_x = roomDecisionStruct[isRoom].quat_x;
+                navigateToDecision.quat_y = roomDecisionStruct[isRoom].quat_y;
+                navigateToDecision.quat_z = roomDecisionStruct[isRoom].quat_z;
+                navigateToDecision.quat_w = roomDecisionStruct[isRoom].quat_w;
+            }
             break;
     }
+    sendToMovebase();
 }
 
 /**
