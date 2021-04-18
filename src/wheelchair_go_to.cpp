@@ -12,6 +12,7 @@
 #include "wheelchair_msgs/roomToObjects.h" //assign rooms to objects
 #include "wheelchair_msgs/roomLocations.h" //translations of rooms
 #include "wheelchair_msgs/objectLocations.h" //translations of all objects
+#include "move_base_msgs/MoveBaseActionGoal.h" //move_base msg for sending map goals
 #include "std_msgs/String.h" //ROS msg type string
 #include <sstream>
 using namespace std;
@@ -88,6 +89,9 @@ struct Decisions objectDecisionStruct[10000]; //array for storing possible objec
 struct Decisions roomDecisionStruct[10]; //array for storing possible rooms to navigate to
 int totalObjectDecisionStruct = 0;
 int totalRoomDecisionStruct = 0;
+
+ros::Publisher *ptr_espeak_pub; //publisher for verbal feedback from wheelchair
+ros::Publisher *ptr_movebaseGoal_pub; //publisher for sending move_base goals
 
 /**
  * Test function for finding strings within a long string 
@@ -399,6 +403,12 @@ int main(int argc, char** argv) {
     ros::Subscriber object_locations_sub = nodeHandler.subscribe("/wheelchair_robot/dacop/publish_object_locations/objects", 10, objectLocationsCallback);
     ros::Subscriber room_locations_sub = nodeHandler.subscribe("/wheelchair_robot/dacop/assign_room_to_object/rooms", 10, roomLocationsCallback);
     ros::Subscriber assign_room_object_sub = nodeHandler.subscribe("/wheelchair_robot/dacop/assign_room_to_object/objects", 10, roomObjectCallback);
+
+    ros::Publisher wheelchairGoal_pub = nodeHandler.advertise<move_base_msgs::MoveBaseActionGoal>("/move_base/goal", 1000);
+    ptr_movebaseGoal_pub = &wheelchairGoal_pub;
+    ros::Publisher espeak_pub = nodeHandler.advertise<std_msgs::String>("/espeak_node/speak_line", 1000);
+    ptr_espeak_pub = &espeak_pub;
+
     ros::Rate rate(1.0);
 
     while (ros::ok()) {
