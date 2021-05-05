@@ -25,6 +25,7 @@ const bool DEBUG_userInstructionCallback = 1;
 const bool DEBUG_objectLocationsCallback = 0;
 const bool DEBUG_roomLocationsCallback = 0;
 const bool DEBUG_roomObjectCallback = 0;
+const bool DEBUG_objectContextCallback = 1;
 const bool DEBUG_main = 0;
 
 struct Objects { //struct for publishing topic
@@ -90,6 +91,21 @@ struct Decisions objectDecisionStruct[10000]; //array for storing possible objec
 struct Decisions roomDecisionStruct[10]; //array for storing possible rooms to navigate to
 int totalObjectDecisionStruct = 0;
 int totalRoomDecisionStruct = 0;
+
+struct Context {
+    int object_id; //object id
+    string object_name; //object name
+    float object_confidence; //object confidence from dnn
+    int object_detected; //times object has been detected
+
+    float object_weighting; //object weighting result
+    float object_uniqueness; //object uniqueness result
+    float object_score; //calculation of object weighting and uniqueness
+    int object_instances; //number of objects in env
+};
+
+struct Context objectContext[100000]; //struct for storing object context info
+int totalObjectContextStruct = 0; //total objects in struct
 
 ros::Publisher *ptr_espeak_pub; //publisher for verbal feedback from wheelchair
 ros::Publisher *ptr_movebaseGoal_pub; //publisher for sending move_base goals
