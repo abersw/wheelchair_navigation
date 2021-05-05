@@ -472,7 +472,30 @@ void roomObjectCallback(const wheelchair_msgs::roomToObjects room2obj) {
  *        message belongs to wheelchair_msgs::objectContext
  */
 void objectContextCallback(const wheelchair_msgs::objectContext objContext) {
-    //do stuff
+    totalObjectContextStruct = objContext.totalObjects;
+    for (int isContext = 0; isContext < totalObjectContextStruct; isContext++) {
+        if (DEBUG_objectContextCallback) {
+            cout <<
+            objectContext[isContext].object_id << ", " <<
+            objectContext[isContext].object_name << ", " <<
+            objectContext[isContext].object_confidence << ", " <<
+            objectContext[isContext].object_detected << ", " <<
+
+            objectContext[isContext].object_weighting << ", " <<
+            objectContext[isContext].object_uniqueness << ", " <<
+            objectContext[isContext].object_score << ", " <<
+            objectContext[isContext].object_instances << endl;
+        }
+        objectContext[isContext].object_id = objContext.object_id[isContext];
+        objectContext[isContext].object_name = objContext.object_name[isContext];
+        objectContext[isContext].object_confidence = objContext.object_confidence[isContext];
+        objectContext[isContext].object_detected = objContext.object_detected[isContext];
+
+        objectContext[isContext].object_weighting = objContext.object_weighting[isContext];
+        objectContext[isContext].object_uniqueness = objContext.object_uniqueness[isContext];
+        objectContext[isContext].object_score = objContext.object_score[isContext];
+        objectContext[isContext].object_instances = objContext.object_instances[isContext];
+    }
 }
 
 /**
