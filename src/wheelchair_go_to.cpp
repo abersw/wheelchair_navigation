@@ -12,6 +12,7 @@
 #include "wheelchair_msgs/roomToObjects.h" //assign rooms to objects
 #include "wheelchair_msgs/roomLocations.h" //translations of rooms
 #include "wheelchair_msgs/objectLocations.h" //translations of all objects
+#include "wheelchair_msgs/objectContext.h" //object context info
 #include "move_base_msgs/MoveBaseActionGoal.h" //move_base msg for sending map goals
 #include "std_msgs/String.h" //ROS msg type string
 #include <sstream>
@@ -449,6 +450,16 @@ void roomObjectCallback(const wheelchair_msgs::roomToObjects room2obj) {
 }
 
 /**
+ * Callback function triggered by objects context list 
+ *
+ * @param parameter 'objContext' is a roomToObjects msg of the objects which have rooms assigned from wheelchair_dacop
+ *        message belongs to wheelchair_msgs::objectContext
+ */
+void objectContextCallback(const wheelchair_msgs::objectContext objContext) {
+    //do stuff
+}
+
+/**
  * Main function that contains ROS info, subscriber callback trigger and while loop to get room name
  *
  * @param argc - number of arguments
@@ -462,6 +473,7 @@ int main(int argc, char** argv) {
     ros::Subscriber object_locations_sub = nodeHandler.subscribe("/wheelchair_robot/dacop/publish_object_locations/objects", 10, objectLocationsCallback);
     ros::Subscriber room_locations_sub = nodeHandler.subscribe("/wheelchair_robot/dacop/assign_room_to_object/rooms", 10, roomLocationsCallback);
     ros::Subscriber assign_room_object_sub = nodeHandler.subscribe("/wheelchair_robot/dacop/assign_room_to_object/objects", 10, roomObjectCallback);
+    ros::Subscriber object_context_sub = nodeHandler.subscribe("/wheelchair_robot/context/objects", 10, objectContextCallback);
 
     ros::Publisher wheelchairGoal_pub = nodeHandler.advertise<move_base_msgs::MoveBaseActionGoal>("/move_base/goal", 1000);
     ptr_movebaseGoal_pub = &wheelchairGoal_pub;
