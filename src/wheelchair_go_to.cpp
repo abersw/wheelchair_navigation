@@ -110,6 +110,18 @@ int totalObjectContextStruct = 0; //total objects in struct
 ros::Publisher *ptr_espeak_pub; //publisher for verbal feedback from wheelchair
 ros::Publisher *ptr_movebaseGoal_pub; //publisher for sending move_base goals
 
+//function for printing space sizes
+void printSeparator(int spaceSize) {
+	if (spaceSize == 0) {
+		printf("--------------------------------------------\n");
+	}
+	else {
+		printf("\n");
+		printf("--------------------------------------------\n");
+		printf("\n");
+	}
+}
+
 /**
  * Test function for finding strings within a long string 
  *
