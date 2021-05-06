@@ -128,7 +128,7 @@ void testFindUserInstruction(std::string userInstructionRaw) {
  * Function to send navigateToDecision struct to move_base goal topic for executing to path planner.
  */
 void sendToMovebase() {
-    cout << "navigating to " << navigateToDecision.name;
+    cout << "navigating to " << navigateToDecision.id << ", " << navigateToDecision.name << endl;
     move_base_msgs::MoveBaseActionGoal chosenGoal;
 
     chosenGoal.header;
@@ -179,12 +179,15 @@ void startDecidingGoal(int navigateToState) {
                 cout << "navigate to object, no room info available" << endl;
                 cout << "total objects decided " << totalObjectDecisionStruct << endl;
             }
+            //start adding object decision code here
             break;
         case 2: //navigate to object with room information
             if (DEBUG_startDecidingGoal) {
                 cout << "navigate to object with room information" << endl;
+                cout << "total rooms decided " << totalRoomDecisionStruct << endl;
                 cout << "total objects and room decided " << totalObjectDecisionStruct << endl;
             }
+            //start adding room and object decision code here
             break;
         case 3: //navigate to a room - no object info available
             if (DEBUG_startDecidingGoal) {
