@@ -252,6 +252,22 @@ int navigateToObjectWithRoom() {
     }*/
     }
 
+    float largest;
+    int largestPos;
+    largest = preProcessedContext[0].object_score;
+    for (int isContext = 0; isContext < totalPreProcessedContext; isContext++) {
+        if (largest < preProcessedContext[isContext].object_score) {
+            largest = preProcessedContext[isContext].object_score;
+            largestPos = isContext;
+            if (DEBUG_navigateToObjectWithRoom) {
+                cout << "found new largest score" << endl;
+            }
+        }
+    }
+    if (DEBUG_navigateToObjectWithRoom) {
+        cout << "largest score is " << largest << " at context position " << largestPos << endl;
+    }
+
     printSeparator(0);
     cout << "sorted decision struct" << endl;
     //std::sort(std::begin(arr), std::end(arr), sortCompare);
