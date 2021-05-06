@@ -180,10 +180,6 @@ void sendToMovebase() {
     cout << "published goal\n";
 }
 
-int sortCompare(int const &rosie, int const &jim) {
-    return rosie > jim;
-}
-
 /**
  * Function for navigating to object with room information 
  *
