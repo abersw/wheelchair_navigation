@@ -19,6 +19,7 @@
 using namespace std;
 
 const bool DEBUG_testFindUserInstruction = 0;
+const bool DEBUG_navigateToObjectWithRoom = 1;
 const bool DEBUG_startDecidingGoal = 1;
 const bool DEBUG_findObjectAndRoom = 1;
 const bool DEBUG_userInstructionCallback = 1;
@@ -179,6 +180,48 @@ void sendToMovebase() {
 }
 
 /**
+ * Function for navigating to object with room information 
+ *
+ * @return position of object in decision struct (not the objectID!) <- come back to this once function is finished
+ */
+int navigateToObjectWithRoom() {
+    int madeDecision = 0;
+    int decisionRoomID = roomDecisionStruct[0].id;
+    std::string decisionRoomName = roomDecisionStruct[0].name;
+
+    struct Context preProcessedContext[1000];
+    int totalPreProcessedContext = 0;
+    struct Context processedContext[1000];
+    int totalProcessedContext = 0;
+
+    printSeparator(0);
+    cout << "unsorted decision struct" << endl;
+    for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
+        if (DEBUG_navigateToObjectWithRoom) {
+            cout <<
+            objectDecisionStruct[isContext].object_id << ", " <<
+            objectDecisionStruct[isContext].object_name << ", " <<
+            objectDecisionStruct[isContext].object_confidence << ", " <<
+            objectDecisionStruct[isContext].object_detected << ", " <<
+
+            objectDecisionStruct[isContext].object_weighting << ", " <<
+            objectDecisionStruct[isContext].object_uniqueness << ", " <<
+            objectDecisionStruct[isContext].object_score << ", " <<
+            objectDecisionStruct[isContext].object_instances << endl;
+        }
+    }
+
+    printSeparator(0);
+    cout << "sorted decision struct" << endl;
+
+    //run through object decision struct and work out the most influential object to navigate to
+    for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject++) { //run through all object with links to goal room
+        //do stuff
+    }
+    return madeDecision;
+}
+
+/**
  * Function for starting decision making process to navigate to an object 
  *
  * @param parameter 'navigateToState' is an int of the navigation mode from the finObjectAndRoom function
@@ -200,6 +243,10 @@ void startDecidingGoal(int navigateToState) {
                 cout << "total objects and room decided " << totalObjectDecisionStruct << endl;
             }
             //start adding room and object decision code here
+            {
+            int madeDecision = navigateToObjectWithRoom(); //make decision and return true if successful
+            //assign decision to navigate to decision struct
+            }
             break;
         case 3: //navigate to a room - no object info available
             if (DEBUG_startDecidingGoal) {
