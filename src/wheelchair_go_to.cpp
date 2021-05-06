@@ -199,15 +199,16 @@ int navigateToObjectWithRoom() {
     for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
         if (DEBUG_navigateToObjectWithRoom) {
             cout <<
-            objectDecisionStruct[isContext].object_id << ", " <<
-            objectDecisionStruct[isContext].object_name << ", " <<
-            objectDecisionStruct[isContext].object_confidence << ", " <<
-            objectDecisionStruct[isContext].object_detected << ", " <<
+            objectDecisionStruct[isDecision].id << ", " <<
+            objectDecisionStruct[isDecision].name << ", " <<
+            objectDecisionStruct[isDecision].point_x << ", " <<
+            objectDecisionStruct[isDecision].point_y << ", " <<
+            objectDecisionStruct[isDecision].point_z << ", " <<
 
-            objectDecisionStruct[isContext].object_weighting << ", " <<
-            objectDecisionStruct[isContext].object_uniqueness << ", " <<
-            objectDecisionStruct[isContext].object_score << ", " <<
-            objectDecisionStruct[isContext].object_instances << endl;
+            objectDecisionStruct[isDecision].quat_x << ", " <<
+            objectDecisionStruct[isDecision].quat_y << ", " <<
+            objectDecisionStruct[isDecision].quat_z << ", " <<
+            objectDecisionStruct[isDecision].quat_w << endl;
         }
     }
 
