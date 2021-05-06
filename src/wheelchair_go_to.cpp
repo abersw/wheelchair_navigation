@@ -195,6 +195,7 @@ int navigateToObjectWithRoom() {
     struct Context processedContext[1000];
     int totalProcessedContext = 0;
 
+    int objectCounter = 0;
     for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject) {
         //run through decision array
         int currentObjectID = objectDecisionStruct[isObject].id;
@@ -204,6 +205,16 @@ int navigateToObjectWithRoom() {
             //find object ID match
             if (currentObjectID == currentContextID) {
                 //if the IDs match
+                preProcessedContext[objectCounter].object_id = objectContext[isContext].object_id;
+                preProcessedContext[objectCounter].object_name = objectContext[isContext].object_name;
+                preProcessedContext[objectCounter].object_confidence = objectContext[isContext].object_confidence;
+                preProcessedContext[objectCounter].object_detected = objectContext[isContext].object_detected;
+
+                preProcessedContext[objectCounter].object_weighting = objectContext[isContext].object_weighting;
+                preProcessedContext[objectCounter].object_uniqueness = objectContext[isContext].object_uniqueness;
+                preProcessedContext[objectCounter].object_score = objectContext[isContext].object_score;
+                preProcessedContext[objectCounter].object_instances = objectContext[isContext].object_instances;
+                objectCounter++;
             }
         }
     }
