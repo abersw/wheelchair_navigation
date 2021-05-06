@@ -218,10 +218,24 @@ int navigateToObjectWithRoom() {
             }
         }
     }
+    totalPreProcessedContext = objectCounter;
+    objectCounter = 0;
 
-    printSeparator(0);
-    cout << "unsorted decision struct" << endl;
-    for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
+    if (DEBUG_navigateToObjectWithRoom) {
+        printSeparator(0);
+        cout << "unsorted decision struct" << endl;
+        for (int isContext = 0; isContext < totalPreProcessedContext; isContext++) {
+            preProcessedContext[isContext].object_id;
+            preProcessedContext[isContext].object_name;
+            preProcessedContext[isContext].object_confidence;
+            preProcessedContext[isContext].object_detected;
+
+            preProcessedContext[isContext].object_weighting;
+            preProcessedContext[isContext].object_uniqueness;
+            preProcessedContext[isContext].object_score;
+            preProcessedContext[isContext].object_instances;
+        }
+    /*for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
         if (DEBUG_navigateToObjectWithRoom) {
             cout <<
             objectDecisionStruct[isDecision].id << ", " <<
@@ -235,6 +249,7 @@ int navigateToObjectWithRoom() {
             objectDecisionStruct[isDecision].quat_z << ", " <<
             objectDecisionStruct[isDecision].quat_w << endl;
         }
+    }*/
     }
 
     printSeparator(0);
