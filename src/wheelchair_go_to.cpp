@@ -15,6 +15,7 @@
 #include "wheelchair_msgs/objectContext.h" //object context info
 #include "move_base_msgs/MoveBaseActionGoal.h" //move_base msg for sending map goals
 #include "std_msgs/String.h" //ROS msg type string
+#include <algorithm>
 #include <sstream>
 using namespace std;
 
@@ -179,6 +180,10 @@ void sendToMovebase() {
     cout << "published goal\n";
 }
 
+int sortCompare(int const &rosie, int const &jim) {
+    return rosie > jim;
+}
+
 /**
  * Function for navigating to object with room information 
  *
@@ -193,6 +198,19 @@ int navigateToObjectWithRoom() {
     int totalPreProcessedContext = 0;
     struct Context processedContext[1000];
     int totalProcessedContext = 0;
+
+    for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject) {
+        //run through decision array
+        int currentObjectID = objectDecisionStruct[isObject].id;
+        for (int isContext = 0; isContext < totalObjectContextStruct; isContext++) {
+            //run through entire context array
+            int currentContextID = objectContext[isContext].object_id;
+            //find object ID match
+            if (currentObjectID == currentContextID) {
+                //if the IDs match
+            }
+        }
+    }
 
     printSeparator(0);
     cout << "unsorted decision struct" << endl;
@@ -214,11 +232,11 @@ int navigateToObjectWithRoom() {
 
     printSeparator(0);
     cout << "sorted decision struct" << endl;
-
+    //std::sort(std::begin(arr), std::end(arr), sortCompare);
     //run through object decision struct and work out the most influential object to navigate to
-    for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject++) { //run through all object with links to goal room
+    /*for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject++) { //run through all object with links to goal room
         //do stuff
-    }
+    }*/
     return madeDecision;
 }
 
