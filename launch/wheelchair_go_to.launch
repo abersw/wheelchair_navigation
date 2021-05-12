@@ -1,0 +1,5 @@
+<launch>
+<!--add valgrind -v to launch prefix-->
+<!--node to calculate user decision and convert to move base goal-->
+<node pkg="wheelchair_navigation" name="wheelchair_go_to" type="wheelchair_go_to" output="screen" launch-prefix=""></node>
+</launch>

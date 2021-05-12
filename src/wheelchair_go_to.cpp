@@ -22,12 +22,12 @@ using namespace std;
 const bool DEBUG_testFindUserInstruction = 0;
 const bool DEBUG_navigateToObjectWithRoom = 1;
 const bool DEBUG_startDecidingGoal = 1;
-const bool DEBUG_findObjectAndRoom = 1;
+const bool DEBUG_findObjectAndRoom = 0;
 const bool DEBUG_userInstructionCallback = 1;
 const bool DEBUG_objectLocationsCallback = 0;
 const bool DEBUG_roomLocationsCallback = 0;
 const bool DEBUG_roomObjectCallback = 0;
-const bool DEBUG_objectContextCallback = 1;
+const bool DEBUG_objectContextCallback = 0;
 const bool DEBUG_main = 0;
 
 struct Objects { //struct for publishing topic
@@ -235,21 +235,6 @@ int navigateToObjectWithRoom() {
             preProcessedContext[isContext].object_score;
             preProcessedContext[isContext].object_instances;
         }
-    /*for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
-        if (DEBUG_navigateToObjectWithRoom) {
-            cout <<
-            objectDecisionStruct[isDecision].id << ", " <<
-            objectDecisionStruct[isDecision].name << ", " <<
-            objectDecisionStruct[isDecision].point_x << ", " <<
-            objectDecisionStruct[isDecision].point_y << ", " <<
-            objectDecisionStruct[isDecision].point_z << ", " <<
-
-            objectDecisionStruct[isDecision].quat_x << ", " <<
-            objectDecisionStruct[isDecision].quat_y << ", " <<
-            objectDecisionStruct[isDecision].quat_z << ", " <<
-            objectDecisionStruct[isDecision].quat_w << endl;
-        }
-    }*/
     }
 
     float largest;
@@ -301,7 +286,7 @@ void startDecidingGoal(int navigateToState) {
             }
             //start adding room and object decision code here
             {
-            int madeDecision = navigateToObjectWithRoom(); //make decision and return true if successful
+            //int madeDecision = navigateToObjectWithRoom(); //make decision and return true if successful
             //assign decision to navigate to decision struct
             }
             break;
