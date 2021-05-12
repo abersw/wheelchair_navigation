@@ -192,25 +192,41 @@ int navigateToObjectWithRoom() {
     int decisionRoomID = roomDecisionStruct[0].id;
     std::string decisionRoomName = roomDecisionStruct[0].name;
 
+    struct Context contextDecisionStruct[10000]; //context for objects in decision struct
+
+    int objectCount = 0;
     for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
         //run through entire decision struct
-        int isDecisionID = objectDecisionStruct[isDecision].id;
+        int isDecisionID = objectDecisionStruct[isDecision].id; //get current object ID
         if (DEBUG_navigateToObjectWithRoom_1) {
             cout << "in pos " << isDecision << " with ID " << isDecisionID << endl;
         }
         for (int isContext = 0; isContext < totalObjectContextStruct; isContext++) {
-            int isContextID = objectContext[isContext].object_id;
+            //run through entire context struct
+            int isContextID = objectContext[isContext].object_id; //get current object ID
             if (DEBUG_navigateToObjectWithRoom_1) {
                 cout << "in pos " << isContext << " with ID " << isContextID << endl;
             }
-            if (isDecisionID == isContextID) {
+            if (isDecisionID == isContextID) { //if decision object is equal to object in context struct
                 if (DEBUG_navigateToObjectWithRoom_2) {
                     cout << "found object match" << endl;
                 }
-                //get the object context info to make the goal decision
+                //add found context data to new struct
+                contextDecisionStruct[objectCount].object_id = objectContext[isContext].object_id;
+                contextDecisionStruct[objectCount].object_name = objectContext[isContext].object_name;
+                contextDecisionStruct[objectCount].object_confidence = objectContext[isContext].object_confidence;
+                contextDecisionStruct[objectCount].object_detected = objectContext[isContext].object_detected;
+
+                contextDecisionStruct[objectCount].object_weighting = objectContext[isContext].object_weighting;
+                contextDecisionStruct[objectCount].object_uniqueness = objectContext[isContext].object_uniqueness;
+                contextDecisionStruct[objectCount].object_score = objectContext[isContext].object_score;
+                contextDecisionStruct[objectCount].object_instances = objectContext[isContext].object_instances;
+                objectCount++; //iterate to the next object
             }
         }
     }
+    //object location data in objectDecisionStruct
+    //object context data in contextDecisionStruct
     return madeDecision;
 }
 
