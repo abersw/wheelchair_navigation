@@ -193,6 +193,7 @@ int navigateToObjectWithRoom() {
     std::string decisionRoomName = roomDecisionStruct[0].name;
 
     struct Context contextDecisionStruct[10000]; //context for objects in decision struct
+    int totalContextDecisionStruct = 0;
 
     int objectCount = 0;
     for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
@@ -225,8 +226,24 @@ int navigateToObjectWithRoom() {
             }
         }
     }
+    totalContextDecisionStruct = objectCount;
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
+    float largest;
+    int largestPos;
+    largest = contextDecisionStruct[0].object_score;
+    for (int contextDec = 0; contextDec < totalContextDecisionStruct; contextDec++) {
+        if (largest < contextDecisionStruct[contextDec].object_score) {
+            largest = contextDecisionStruct[contextDec].object_score;
+            largestPos = contextDec;
+            if (DEBUG_navigateToObjectWithRoom) {
+                cout << "found new largest score" << endl;
+            }
+        }
+    }
+    if (DEBUG_navigateToObjectWithRoom) {
+        cout << "largest score is " << largest << " at context position " << largestPos << endl;
+    }
     return madeDecision;
 }
 
