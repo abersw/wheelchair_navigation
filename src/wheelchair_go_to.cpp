@@ -207,6 +207,7 @@ int navigateToObjectWithRoom() {
                 if (DEBUG_navigateToObjectWithRoom_2) {
                     cout << "found object match" << endl;
                 }
+                //get the object context info to make the goal decision
             }
         }
     }
