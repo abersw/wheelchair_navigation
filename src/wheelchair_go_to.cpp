@@ -186,10 +186,30 @@ void sendToMovebase() {
  * @return position of object in decision struct (not the objectID!) <- come back to this once function is finished
  */
 int navigateToObjectWithRoom() {
+    static const bool DEBUG_navigateToObjectWithRoom_1 = 0;
+    static const bool DEBUG_navigateToObjectWithRoom_2 = 1;
     int madeDecision = 0;
     int decisionRoomID = roomDecisionStruct[0].id;
     std::string decisionRoomName = roomDecisionStruct[0].name;
 
+    for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
+        //run through entire decision struct
+        int isDecisionID = objectDecisionStruct[isDecision].id;
+        if (DEBUG_navigateToObjectWithRoom_1) {
+            cout << "in pos " << isDecision << " with ID " << isDecisionID << endl;
+        }
+        for (int isContext = 0; isContext < totalObjectContextStruct; isContext++) {
+            int isContextID = objectContext[isContext].object_id;
+            if (DEBUG_navigateToObjectWithRoom_1) {
+                cout << "in pos " << isContext << " with ID " << isContextID << endl;
+            }
+            if (isDecisionID == isContextID) {
+                if (DEBUG_navigateToObjectWithRoom_2) {
+                    cout << "found object match" << endl;
+                }
+            }
+        }
+    }
     return madeDecision;
 }
 
