@@ -190,76 +190,6 @@ int navigateToObjectWithRoom() {
     int decisionRoomID = roomDecisionStruct[0].id;
     std::string decisionRoomName = roomDecisionStruct[0].name;
 
-    struct Context preProcessedContext[1000];
-    int totalPreProcessedContext = 0;
-    struct Context processedContext[1000];
-    int totalProcessedContext = 0;
-
-    int objectCounter = 0;
-    for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject) {
-        //run through decision array
-        int currentObjectID = objectDecisionStruct[isObject].id;
-        for (int isContext = 0; isContext < totalObjectContextStruct; isContext++) {
-            //run through entire context array
-            int currentContextID = objectContext[isContext].object_id;
-            //find object ID match
-            if (currentObjectID == currentContextID) {
-                //if the IDs match
-                preProcessedContext[objectCounter].object_id = objectContext[isContext].object_id;
-                preProcessedContext[objectCounter].object_name = objectContext[isContext].object_name;
-                preProcessedContext[objectCounter].object_confidence = objectContext[isContext].object_confidence;
-                preProcessedContext[objectCounter].object_detected = objectContext[isContext].object_detected;
-
-                preProcessedContext[objectCounter].object_weighting = objectContext[isContext].object_weighting;
-                preProcessedContext[objectCounter].object_uniqueness = objectContext[isContext].object_uniqueness;
-                preProcessedContext[objectCounter].object_score = objectContext[isContext].object_score;
-                preProcessedContext[objectCounter].object_instances = objectContext[isContext].object_instances;
-                objectCounter++;
-            }
-        }
-    }
-    totalPreProcessedContext = objectCounter;
-    objectCounter = 0;
-
-    if (DEBUG_navigateToObjectWithRoom) {
-        printSeparator(0);
-        cout << "unsorted decision struct" << endl;
-        for (int isContext = 0; isContext < totalPreProcessedContext; isContext++) {
-            preProcessedContext[isContext].object_id;
-            preProcessedContext[isContext].object_name;
-            preProcessedContext[isContext].object_confidence;
-            preProcessedContext[isContext].object_detected;
-
-            preProcessedContext[isContext].object_weighting;
-            preProcessedContext[isContext].object_uniqueness;
-            preProcessedContext[isContext].object_score;
-            preProcessedContext[isContext].object_instances;
-        }
-    }
-
-    float largest;
-    int largestPos;
-    largest = preProcessedContext[0].object_score;
-    for (int isContext = 0; isContext < totalPreProcessedContext; isContext++) {
-        if (largest < preProcessedContext[isContext].object_score) {
-            largest = preProcessedContext[isContext].object_score;
-            largestPos = isContext;
-            if (DEBUG_navigateToObjectWithRoom) {
-                cout << "found new largest score" << endl;
-            }
-        }
-    }
-    if (DEBUG_navigateToObjectWithRoom) {
-        cout << "largest score is " << largest << " at context position " << largestPos << endl;
-    }
-
-    printSeparator(0);
-    cout << "sorted decision struct" << endl;
-    //std::sort(std::begin(arr), std::end(arr), sortCompare);
-    //run through object decision struct and work out the most influential object to navigate to
-    /*for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject++) { //run through all object with links to goal room
-        //do stuff
-    }*/
     return madeDecision;
 }
 
@@ -286,7 +216,7 @@ void startDecidingGoal(int navigateToState) {
             }
             //start adding room and object decision code here
             {
-            //int madeDecision = navigateToObjectWithRoom(); //make decision and return true if successful
+            int madeDecision = navigateToObjectWithRoom(); //make decision and return true if successful
             //assign decision to navigate to decision struct
             }
             break;
@@ -310,6 +240,7 @@ void startDecidingGoal(int navigateToState) {
             }
             break;
     }
+    cout << "finished goal decision function" << endl;
     //sendToMovebase();
 }
 
