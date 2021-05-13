@@ -224,6 +224,19 @@ int navigateToObjectWithRoom() {
                 contextDecisionStruct[objectCount].object_instances = objectContext[isContext].object_instances; //set object instances in env
                 if (DEBUG_navigateToObjectWithRoom_2) { //print out current object info from decision struct
                     cout <<
+                    objectDecisionStruct[isDecision].id << ", " <<
+                    objectDecisionStruct[isDecision].name << ", " <<
+                    objectDecisionStruct[isDecision].confidence << ", " <<
+
+                    objectDecisionStruct[isDecision].point_x << ", " <<
+                    objectDecisionStruct[isDecision].point_y << ", " <<
+                    objectDecisionStruct[isDecision].point_z << ", " <<
+
+                    objectDecisionStruct[isDecision].quat_x << ", " <<
+                    objectDecisionStruct[isDecision].quat_y << ", " <<
+                    objectDecisionStruct[isDecision].quat_z << ", " <<
+                    objectDecisionStruct[isDecision].quat_w << endl;
+                    cout <<
                     contextDecisionStruct[objectCount].object_id << ", " <<
                     contextDecisionStruct[objectCount].object_name << ", " <<
                     contextDecisionStruct[objectCount].object_confidence << ", " <<
