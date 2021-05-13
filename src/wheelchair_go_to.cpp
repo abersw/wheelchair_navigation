@@ -274,6 +274,7 @@ int navigateToObjectWithRoom() {
     if (DEBUG_navigateToObjectWithRoom) {
         cout << "largest score is " << largestScore << " at context position " << largestPosScore << endl;
     }
+    //times the score with the confidence - less confident detections will be lower on the decision making scale
     return madeDecision;
 }
 
