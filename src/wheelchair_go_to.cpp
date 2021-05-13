@@ -258,21 +258,22 @@ int navigateToObjectWithRoom() {
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
 
-    /*float largest;
-    int largestPos;
-    largest = contextDecisionStruct[0].object_score;
+    //get the highest score
+    float largestScore;
+    int largestPosScore;
+    largestScore = contextDecisionStruct[0].object_score;
     for (int contextDec = 0; contextDec < totalContextDecisionStruct; contextDec++) {
-        if (largest < contextDecisionStruct[contextDec].object_score) {
-            largest = contextDecisionStruct[contextDec].object_score;
-            largestPos = contextDec;
+        if (largestScore < contextDecisionStruct[contextDec].object_score) {
+            largestScore = contextDecisionStruct[contextDec].object_score;
+            largestPosScore = contextDec;
             if (DEBUG_navigateToObjectWithRoom) {
                 cout << "found new largest score" << endl;
             }
         }
     }
     if (DEBUG_navigateToObjectWithRoom) {
-        cout << "largest score is " << largest << " at context position " << largestPos << endl;
-    }*/
+        cout << "largest score is " << largestScore << " at context position " << largestPosScore << endl;
+    }
     return madeDecision;
 }
 
