@@ -213,15 +213,27 @@ int navigateToObjectWithRoom() {
                     cout << "found object match" << endl;
                 }
                 //add found context data to new struct
-                contextDecisionStruct[objectCount].object_id = objectContext[isContext].object_id;
-                contextDecisionStruct[objectCount].object_name = objectContext[isContext].object_name;
-                contextDecisionStruct[objectCount].object_confidence = objectContext[isContext].object_confidence;
-                contextDecisionStruct[objectCount].object_detected = objectContext[isContext].object_detected;
+                contextDecisionStruct[objectCount].object_id = objectContext[isContext].object_id; //set object ID
+                contextDecisionStruct[objectCount].object_name = objectContext[isContext].object_name; //set object name
+                contextDecisionStruct[objectCount].object_confidence = objectContext[isContext].object_confidence; //set object mobilenet confidence
+                contextDecisionStruct[objectCount].object_detected = objectContext[isContext].object_detected; //set times object has been detected
 
-                contextDecisionStruct[objectCount].object_weighting = objectContext[isContext].object_weighting;
-                contextDecisionStruct[objectCount].object_uniqueness = objectContext[isContext].object_uniqueness;
-                contextDecisionStruct[objectCount].object_score = objectContext[isContext].object_score;
-                contextDecisionStruct[objectCount].object_instances = objectContext[isContext].object_instances;
+                contextDecisionStruct[objectCount].object_weighting = objectContext[isContext].object_weighting; //set object context weighting
+                contextDecisionStruct[objectCount].object_uniqueness = objectContext[isContext].object_uniqueness; //set object context uniqueness
+                contextDecisionStruct[objectCount].object_score = objectContext[isContext].object_score; //set object score from context node
+                contextDecisionStruct[objectCount].object_instances = objectContext[isContext].object_instances; //set object instances in env
+                if (DEBUG_navigateToObjectWithRoom_2) { //print out current object info from decision struct
+                    cout <<
+                    contextDecisionStruct[objectCount].object_id << ", " <<
+                    contextDecisionStruct[objectCount].object_name << ", " <<
+                    contextDecisionStruct[objectCount].object_confidence << ", " <<
+                    contextDecisionStruct[objectCount].object_detected << ", " <<
+
+                    contextDecisionStruct[objectCount].object_weighting << ", " <<
+                    contextDecisionStruct[objectCount].object_uniqueness << ", " <<
+                    contextDecisionStruct[objectCount].object_score << ", " <<
+                    contextDecisionStruct[objectCount].object_instances << endl;
+                }
                 objectCount++; //iterate to the next object
             }
         }
@@ -229,7 +241,8 @@ int navigateToObjectWithRoom() {
     totalContextDecisionStruct = objectCount;
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
-    float largest;
+
+    /*float largest;
     int largestPos;
     largest = contextDecisionStruct[0].object_score;
     for (int contextDec = 0; contextDec < totalContextDecisionStruct; contextDec++) {
@@ -243,7 +256,7 @@ int navigateToObjectWithRoom() {
     }
     if (DEBUG_navigateToObjectWithRoom) {
         cout << "largest score is " << largest << " at context position " << largestPos << endl;
-    }
+    }*/
     return madeDecision;
 }
 
