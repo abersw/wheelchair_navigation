@@ -260,11 +260,15 @@ int navigateToObjectWithRoom() {
 
     //get the highest score
     float largestScore;
+    int largestScoreID;
+    std::string largestScoreName;
     int largestPosScore;
     largestScore = contextDecisionStruct[0].object_score;
     for (int contextDec = 0; contextDec < totalContextDecisionStruct; contextDec++) {
         if (largestScore < contextDecisionStruct[contextDec].object_score) {
             largestScore = contextDecisionStruct[contextDec].object_score;
+            largestScoreID = contextDecisionStruct[contextDec].object_id;
+            largestScoreName = contextDecisionStruct[contextDec].object_name;
             largestPosScore = contextDec;
             if (DEBUG_navigateToObjectWithRoom) {
                 cout << "found new largest score" << endl;
@@ -275,6 +279,26 @@ int navigateToObjectWithRoom() {
         cout << "largest score is " << largestScore << " at context position " << largestPosScore << endl;
     }
     //times the score with the confidence - less confident detections will be lower on the decision making scale
+
+    navigateToDecision.id = largestScoreID;
+    navigateToDecision.name = largestScoreName;
+    for (int isNavDecision = 0; isNavDecision < totalObjectDecisionStruct; isNavDecision++) {
+        if (largestScoreID == objectDecisionStruct[isNavDecision].id) {
+            //if IDs match
+            navigateToDecision.confidence = objectDecisionStruct[isNavDecision].confidence;
+            
+            navigateToDecision.point_x = objectDecisionStruct[isNavDecision].point_x;
+            navigateToDecision.point_y = objectDecisionStruct[isNavDecision].point_y;
+            navigateToDecision.point_z = objectDecisionStruct[isNavDecision].point_z;
+
+            navigateToDecision.quat_x = objectDecisionStruct[isNavDecision].quat_x;
+            navigateToDecision.quat_y = objectDecisionStruct[isNavDecision].quat_y;
+            navigateToDecision.quat_z = objectDecisionStruct[isNavDecision].quat_z;
+            navigateToDecision.quat_w = objectDecisionStruct[isNavDecision].quat_w;
+
+            madeDecision = 1; //successfully allocated an object to navigate towards
+        }
+    }
     return madeDecision;
 }
 
@@ -303,6 +327,9 @@ void startDecidingGoal(int navigateToState) {
             {
             int madeDecision = navigateToObjectWithRoom(); //make decision and return true if successful
             //assign decision to navigate to decision struct
+            if (madeDecision) {
+                cout << "successfully made goal decision towards room and object" << endl;
+            }
             }
             break;
         case 3: //navigate to a room - no object info available
@@ -313,6 +340,7 @@ void startDecidingGoal(int navigateToState) {
             for (int isRoom = 0; isRoom < totalRoomDecisionStruct; isRoom++) {
                 navigateToDecision.id = roomDecisionStruct[isRoom].id;
                 navigateToDecision.name = roomDecisionStruct[isRoom].name;
+                //navigateToDecision.confidence; //no confidence available for room
 
                 navigateToDecision.point_x = roomDecisionStruct[isRoom].point_x;
                 navigateToDecision.point_y = roomDecisionStruct[isRoom].point_y;
@@ -326,7 +354,7 @@ void startDecidingGoal(int navigateToState) {
             break;
     }
     cout << "finished goal decision function" << endl;
-    //sendToMovebase();
+    sendToMovebase();
 }
 
 /**
