@@ -313,6 +313,9 @@ int navigateToObjectWithoutRoom() {
     static const bool DEBUG_navigateToObjectWithoutRoom_2 = 0;
     int madeDecision = 0;
 
+    struct Context contextDecisionStruct[10000]; //context for objects in decision struct
+    int totalContextDecisionStruct = 0;
+
     int objectCount = 0;
     for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
         //run through entire decision struct
@@ -330,10 +333,50 @@ int navigateToObjectWithoutRoom() {
                 if (DEBUG_navigateToObjectWithoutRoom_2) {
                     cout << "found object match" << endl;
                 }
-                //add context info to struct
+                //add found context data to new struct
+                contextDecisionStruct[objectCount].object_id = objectContext[isContext].object_id; //set object ID
+                contextDecisionStruct[objectCount].object_name = objectContext[isContext].object_name; //set object name
+                contextDecisionStruct[objectCount].object_confidence = objectContext[isContext].object_confidence; //set object mobilenet confidence
+                contextDecisionStruct[objectCount].object_detected = objectContext[isContext].object_detected; //set times object has been detected
+
+                contextDecisionStruct[objectCount].object_weighting = objectContext[isContext].object_weighting; //set object context weighting
+                contextDecisionStruct[objectCount].object_uniqueness = objectContext[isContext].object_uniqueness; //set object context uniqueness
+                contextDecisionStruct[objectCount].object_score = objectContext[isContext].object_score; //set object score from context node
+                contextDecisionStruct[objectCount].object_instances = objectContext[isContext].object_instances; //set object instances in env
+                if (DEBUG_navigateToObjectWithoutRoom_2) { //print out current object info from decision struct
+                    //print out object location and info
+                    cout <<
+                    objectDecisionStruct[isDecision].id << ", " <<
+                    objectDecisionStruct[isDecision].name << ", " <<
+                    objectDecisionStruct[isDecision].confidence << ", " <<
+
+                    objectDecisionStruct[isDecision].point_x << ", " <<
+                    objectDecisionStruct[isDecision].point_y << ", " <<
+                    objectDecisionStruct[isDecision].point_z << ", " <<
+
+                    objectDecisionStruct[isDecision].quat_x << ", " <<
+                    objectDecisionStruct[isDecision].quat_y << ", " <<
+                    objectDecisionStruct[isDecision].quat_z << ", " <<
+                    objectDecisionStruct[isDecision].quat_w << endl;
+
+                    //print out object context and info
+                    cout <<
+                    contextDecisionStruct[objectCount].object_id << ", " <<
+                    contextDecisionStruct[objectCount].object_name << ", " <<
+                    contextDecisionStruct[objectCount].object_confidence << ", " <<
+                    contextDecisionStruct[objectCount].object_detected << ", " <<
+
+                    contextDecisionStruct[objectCount].object_weighting << ", " <<
+                    contextDecisionStruct[objectCount].object_uniqueness << ", " <<
+                    contextDecisionStruct[objectCount].object_score << ", " <<
+                    contextDecisionStruct[objectCount].object_instances << endl;
+                }
+                objectCount++; //iterate to the next object
             }
         }
     }
+    totalContextDecisionStruct = objectCount;
+
     return madeDecision;
 }
 
