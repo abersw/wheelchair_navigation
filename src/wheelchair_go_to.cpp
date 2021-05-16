@@ -183,7 +183,7 @@ void sendToMovebase() {
 /**
  * Function for navigating to object with room information 
  *
- * @return position of object in decision struct (not the objectID!) <- come back to this once function is finished
+ * @return set to 1 if successfully allocated an object to navigate towards
  */
 int navigateToObjectWithRoom() {
     static const bool DEBUG_navigateToObjectWithRoom_1 = 0;
@@ -303,6 +303,15 @@ int navigateToObjectWithRoom() {
 }
 
 /**
+ * Function for navigating to object without room information 
+ *
+ * @return set to 1 if successfully allocated an object to navigate towards
+ */
+void navigateToObjectWithoutRoom() {
+    //do stuff here
+}
+
+/**
  * Function for starting decision making process to navigate to an object 
  *
  * @param parameter 'navigateToState' is an int of the navigation mode from the finObjectAndRoom function
@@ -315,7 +324,12 @@ void startDecidingGoal(int navigateToState) {
                 cout << "navigate to object, no room info available" << endl;
                 cout << "total objects decided " << totalObjectDecisionStruct << endl;
             }
-            //start adding object decision code here
+            {
+            int madeDecision = navigateToObjectWithoutRoom();
+            if (madeDecision) {
+                cout << "successfully made goal decision towards object" << endl;
+            }
+            }
             break;
         case 2: //navigate to object with room information
             if (DEBUG_startDecidingGoal) {
