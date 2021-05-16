@@ -307,8 +307,10 @@ int navigateToObjectWithRoom() {
  *
  * @return set to 1 if successfully allocated an object to navigate towards
  */
-void navigateToObjectWithoutRoom() {
+int navigateToObjectWithoutRoom() {
     //do stuff here
+    int madeDecision = 0;
+    return madeDecision;
 }
 
 /**
