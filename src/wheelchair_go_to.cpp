@@ -376,6 +376,10 @@ int navigateToObjectWithoutRoom() {
         }
     }
     totalContextDecisionStruct = objectCount;
+    //object location data in objectDecisionStruct
+    //object context data in contextDecisionStruct
+
+    //get the highest score
 
     return madeDecision;
 }
