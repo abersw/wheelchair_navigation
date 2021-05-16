@@ -21,6 +21,7 @@ using namespace std;
 
 const bool DEBUG_testFindUserInstruction = 0;
 const bool DEBUG_navigateToObjectWithRoom = 1;
+const bool DEBUG_navigateToObjectWithoutRoom = 1;
 const bool DEBUG_startDecidingGoal = 1;
 const bool DEBUG_findObjectAndRoom = 0;
 const bool DEBUG_userInstructionCallback = 1;
@@ -308,8 +309,31 @@ int navigateToObjectWithRoom() {
  * @return set to 1 if successfully allocated an object to navigate towards
  */
 int navigateToObjectWithoutRoom() {
-    //do stuff here
+    static const bool DEBUG_navigateToObjectWithoutRoom_1 = 0;
+    static const bool DEBUG_navigateToObjectWithoutRoom_2 = 0;
     int madeDecision = 0;
+
+    int objectCount = 0;
+    for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
+        //run through entire decision struct
+        int isDecisionID = objectDecisionStruct[isDecision].id; //get current object ID
+        if (DEBUG_navigateToObjectWithoutRoom_1) {
+            cout << "in pos " << isDecision << " with ID " << isDecisionID << endl;
+        }
+        for (int isContext = 0; isContext < totalObjectContextStruct; isContext++) {
+            //run through entire context struct
+            int isContextID = objectContext[isContext].object_id; //get current object ID
+            if (DEBUG_navigateToObjectWithoutRoom_1) {
+                cout << "in pos " << isContext << " with ID " << isContextID << endl;
+            }
+            if (isDecisionID == isContextID) { //if decision object is equal to object in context struct
+                if (DEBUG_navigateToObjectWithoutRoom_2) {
+                    cout << "found object match" << endl;
+                }
+                //add context info to struct
+            }
+        }
+    }
     return madeDecision;
 }
 
