@@ -190,18 +190,20 @@ void sendToMovebase() {
  * @return set to 1 if successfully allocated an object to navigate towards
  */
 int navigateToObjectWithRoom() {
+    printSeparator(0);
     int madeDecision = 0;
 
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
 
     //get the highest score
-    float largestScore;
-    int largestScoreID;
+    float largestScore = 0;
+    int largestScoreID = 0;
     std::string largestScoreName;
-    int largestPosScore;
+    int largestPosScore = 0;
     largestScore = contextDecisionStruct[0].object_score;
     for (int contextDec = 0; contextDec < totalContextDecisionStruct; contextDec++) {
+        cout << largestScore << endl;
         if (largestScore < contextDecisionStruct[contextDec].object_score) {
             largestScore = contextDecisionStruct[contextDec].object_score;
             largestScoreID = contextDecisionStruct[contextDec].object_id;
@@ -259,8 +261,8 @@ int navigateToObjectWithoutRoom() {
 }
 
 void createContextDecisionStruct() {
-    static const bool DEBUG_createContextDecisionStruct_1 = 0;
-    static const bool DEBUG_createContextDecisionStruct_2 = 0;
+    static const bool DEBUG_createContextDecisionStruct_1 = 1;
+    static const bool DEBUG_createContextDecisionStruct_2 = 1;
 
     //add first part of context decision struct assignment to this function
     int objectCount = 0;
@@ -268,13 +270,13 @@ void createContextDecisionStruct() {
         //run through entire decision struct
         int isDecisionID = objectDecisionStruct[isDecision].id; //get current object ID
         if (DEBUG_createContextDecisionStruct_1) {
-            cout << "in pos " << isDecision << " with ID " << isDecisionID << endl;
+            cout << "in obj pos " << isDecision << " with ID " << isDecisionID << endl;
         }
         for (int isContext = 0; isContext < totalObjectContextStruct; isContext++) {
             //run through entire context struct
             int isContextID = objectContext[isContext].object_id; //get current object ID
             if (DEBUG_createContextDecisionStruct_1) {
-                cout << "in pos " << isContext << " with ID " << isContextID << endl;
+                cout << "in ctx pos " << isContext << " with ID " << isContextID << endl;
             }
             if (isDecisionID == isContextID) { //if decision object is equal to object in context struct
                 if (DEBUG_createContextDecisionStruct_2) {
@@ -323,6 +325,7 @@ void createContextDecisionStruct() {
         }
     }
     totalContextDecisionStruct = objectCount;
+    cout << "total context decision struct is " << totalContextDecisionStruct << endl;
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
 }
