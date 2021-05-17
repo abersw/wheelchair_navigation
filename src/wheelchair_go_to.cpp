@@ -110,6 +110,9 @@ struct Context {
 struct Context objectContext[100000]; //struct for storing object context info
 int totalObjectContextStruct = 0; //total objects in struct
 
+struct Context contextDecisionStruct[10000]; //context for objects in decision struct
+int totalContextDecisionStruct = 0;
+
 ros::Publisher *ptr_espeak_pub; //publisher for verbal feedback from wheelchair
 ros::Publisher *ptr_movebaseGoal_pub; //publisher for sending move_base goals
 
@@ -192,9 +195,6 @@ int navigateToObjectWithRoom() {
     int madeDecision = 0;
     int decisionRoomID = roomDecisionStruct[0].id;
     std::string decisionRoomName = roomDecisionStruct[0].name;
-
-    struct Context contextDecisionStruct[10000]; //context for objects in decision struct
-    int totalContextDecisionStruct = 0;
 
     int objectCount = 0;
     for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
@@ -313,9 +313,6 @@ int navigateToObjectWithoutRoom() {
     static const bool DEBUG_navigateToObjectWithoutRoom_2 = 0;
     int madeDecision = 0;
 
-    struct Context contextDecisionStruct[10000]; //context for objects in decision struct
-    int totalContextDecisionStruct = 0;
-
     int objectCount = 0;
     for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
         //run through entire decision struct
@@ -384,7 +381,7 @@ int navigateToObjectWithoutRoom() {
     return madeDecision;
 }
 
-void createContextDecisionStruct(struct Context &contextDecisionStruct) {
+void createContextDecisionStruct() {
     //add first part of context decision struct assignment to this function
 }
 
@@ -402,8 +399,7 @@ void startDecidingGoal(int navigateToState) {
                 cout << "total objects decided " << totalObjectDecisionStruct << endl;
             }
             {
-            struct Context contextDecisionStruct[10000];
-            createContextDecisionStruct(*contextDecisionStruct);
+            createContextDecisionStruct();
             int madeDecision = navigateToObjectWithoutRoom();
             if (madeDecision) {
                 cout << "successfully made goal decision towards object" << endl;
