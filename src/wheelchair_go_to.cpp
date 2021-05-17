@@ -384,6 +384,10 @@ int navigateToObjectWithoutRoom() {
     return madeDecision;
 }
 
+void createContextDecisionStruct(struct Context &contextDecisionStruct) {
+    //add first part of context decision struct assignment to this function
+}
+
 /**
  * Function for starting decision making process to navigate to an object 
  *
@@ -398,6 +402,8 @@ void startDecidingGoal(int navigateToState) {
                 cout << "total objects decided " << totalObjectDecisionStruct << endl;
             }
             {
+            struct Context contextDecisionStruct[10000];
+            createContextDecisionStruct(*contextDecisionStruct);
             int madeDecision = navigateToObjectWithoutRoom();
             if (madeDecision) {
                 cout << "successfully made goal decision towards object" << endl;
