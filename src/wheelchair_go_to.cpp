@@ -190,72 +190,8 @@ void sendToMovebase() {
  * @return set to 1 if successfully allocated an object to navigate towards
  */
 int navigateToObjectWithRoom() {
-    static const bool DEBUG_navigateToObjectWithRoom_1 = 0;
-    static const bool DEBUG_navigateToObjectWithRoom_2 = 1;
     int madeDecision = 0;
-    int decisionRoomID = roomDecisionStruct[0].id;
-    std::string decisionRoomName = roomDecisionStruct[0].name;
 
-    int objectCount = 0;
-    for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
-        //run through entire decision struct
-        int isDecisionID = objectDecisionStruct[isDecision].id; //get current object ID
-        if (DEBUG_navigateToObjectWithRoom_1) {
-            cout << "in pos " << isDecision << " with ID " << isDecisionID << endl;
-        }
-        for (int isContext = 0; isContext < totalObjectContextStruct; isContext++) {
-            //run through entire context struct
-            int isContextID = objectContext[isContext].object_id; //get current object ID
-            if (DEBUG_navigateToObjectWithRoom_1) {
-                cout << "in pos " << isContext << " with ID " << isContextID << endl;
-            }
-            if (isDecisionID == isContextID) { //if decision object is equal to object in context struct
-                if (DEBUG_navigateToObjectWithRoom_2) {
-                    cout << "found object match" << endl;
-                }
-                //add found context data to new struct
-                contextDecisionStruct[objectCount].object_id = objectContext[isContext].object_id; //set object ID
-                contextDecisionStruct[objectCount].object_name = objectContext[isContext].object_name; //set object name
-                contextDecisionStruct[objectCount].object_confidence = objectContext[isContext].object_confidence; //set object mobilenet confidence
-                contextDecisionStruct[objectCount].object_detected = objectContext[isContext].object_detected; //set times object has been detected
-
-                contextDecisionStruct[objectCount].object_weighting = objectContext[isContext].object_weighting; //set object context weighting
-                contextDecisionStruct[objectCount].object_uniqueness = objectContext[isContext].object_uniqueness; //set object context uniqueness
-                contextDecisionStruct[objectCount].object_score = objectContext[isContext].object_score; //set object score from context node
-                contextDecisionStruct[objectCount].object_instances = objectContext[isContext].object_instances; //set object instances in env
-                if (DEBUG_navigateToObjectWithRoom_2) { //print out current object info from decision struct
-                    //print out object location and info
-                    cout <<
-                    objectDecisionStruct[isDecision].id << ", " <<
-                    objectDecisionStruct[isDecision].name << ", " <<
-                    objectDecisionStruct[isDecision].confidence << ", " <<
-
-                    objectDecisionStruct[isDecision].point_x << ", " <<
-                    objectDecisionStruct[isDecision].point_y << ", " <<
-                    objectDecisionStruct[isDecision].point_z << ", " <<
-
-                    objectDecisionStruct[isDecision].quat_x << ", " <<
-                    objectDecisionStruct[isDecision].quat_y << ", " <<
-                    objectDecisionStruct[isDecision].quat_z << ", " <<
-                    objectDecisionStruct[isDecision].quat_w << endl;
-
-                    //print out object context and info
-                    cout <<
-                    contextDecisionStruct[objectCount].object_id << ", " <<
-                    contextDecisionStruct[objectCount].object_name << ", " <<
-                    contextDecisionStruct[objectCount].object_confidence << ", " <<
-                    contextDecisionStruct[objectCount].object_detected << ", " <<
-
-                    contextDecisionStruct[objectCount].object_weighting << ", " <<
-                    contextDecisionStruct[objectCount].object_uniqueness << ", " <<
-                    contextDecisionStruct[objectCount].object_score << ", " <<
-                    contextDecisionStruct[objectCount].object_instances << endl;
-                }
-                objectCount++; //iterate to the next object
-            }
-        }
-    }
-    totalContextDecisionStruct = objectCount;
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
 
@@ -313,21 +249,35 @@ int navigateToObjectWithoutRoom() {
     static const bool DEBUG_navigateToObjectWithoutRoom_2 = 0;
     int madeDecision = 0;
 
+    
+    //object location data in objectDecisionStruct
+    //object context data in contextDecisionStruct
+
+    //get the highest score
+
+    return madeDecision;
+}
+
+void createContextDecisionStruct() {
+    static const bool DEBUG_createContextDecisionStruct_1 = 0;
+    static const bool DEBUG_createContextDecisionStruct_2 = 0;
+
+    //add first part of context decision struct assignment to this function
     int objectCount = 0;
     for (int isDecision = 0; isDecision < totalObjectDecisionStruct; isDecision++) {
         //run through entire decision struct
         int isDecisionID = objectDecisionStruct[isDecision].id; //get current object ID
-        if (DEBUG_navigateToObjectWithoutRoom_1) {
+        if (DEBUG_createContextDecisionStruct_1) {
             cout << "in pos " << isDecision << " with ID " << isDecisionID << endl;
         }
         for (int isContext = 0; isContext < totalObjectContextStruct; isContext++) {
             //run through entire context struct
             int isContextID = objectContext[isContext].object_id; //get current object ID
-            if (DEBUG_navigateToObjectWithoutRoom_1) {
+            if (DEBUG_createContextDecisionStruct_1) {
                 cout << "in pos " << isContext << " with ID " << isContextID << endl;
             }
             if (isDecisionID == isContextID) { //if decision object is equal to object in context struct
-                if (DEBUG_navigateToObjectWithoutRoom_2) {
+                if (DEBUG_createContextDecisionStruct_2) {
                     cout << "found object match" << endl;
                 }
                 //add found context data to new struct
@@ -340,7 +290,7 @@ int navigateToObjectWithoutRoom() {
                 contextDecisionStruct[objectCount].object_uniqueness = objectContext[isContext].object_uniqueness; //set object context uniqueness
                 contextDecisionStruct[objectCount].object_score = objectContext[isContext].object_score; //set object score from context node
                 contextDecisionStruct[objectCount].object_instances = objectContext[isContext].object_instances; //set object instances in env
-                if (DEBUG_navigateToObjectWithoutRoom_2) { //print out current object info from decision struct
+                if (DEBUG_createContextDecisionStruct_2) { //print out current object info from decision struct
                     //print out object location and info
                     cout <<
                     objectDecisionStruct[isDecision].id << ", " <<
@@ -375,14 +325,6 @@ int navigateToObjectWithoutRoom() {
     totalContextDecisionStruct = objectCount;
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
-
-    //get the highest score
-
-    return madeDecision;
-}
-
-void createContextDecisionStruct() {
-    //add first part of context decision struct assignment to this function
 }
 
 /**
@@ -392,6 +334,7 @@ void createContextDecisionStruct() {
  *        param belongs to int
  */
 void startDecidingGoal(int navigateToState) {
+    int madeDecision = 0;
     switch (navigateToState) {
         case 1: //navigate to object - no room info available
             if (DEBUG_startDecidingGoal) {
@@ -399,8 +342,8 @@ void startDecidingGoal(int navigateToState) {
                 cout << "total objects decided " << totalObjectDecisionStruct << endl;
             }
             {
-            createContextDecisionStruct();
-            int madeDecision = navigateToObjectWithoutRoom();
+            createContextDecisionStruct(); //add context data to decision struct
+            madeDecision = navigateToObjectWithoutRoom();
             if (madeDecision) {
                 cout << "successfully made goal decision towards object" << endl;
             }
@@ -414,7 +357,8 @@ void startDecidingGoal(int navigateToState) {
             }
             //start adding room and object decision code here
             {
-            int madeDecision = navigateToObjectWithRoom(); //make decision and return true if successful
+            createContextDecisionStruct(); //add context data to decision struct
+            madeDecision = navigateToObjectWithRoom(); //make decision and return true if successful
             //assign decision to navigate to decision struct
             if (madeDecision) {
                 cout << "successfully made goal decision towards room and object" << endl;
@@ -443,7 +387,9 @@ void startDecidingGoal(int navigateToState) {
             break;
     }
     cout << "finished goal decision function" << endl;
-    sendToMovebase();
+    if (madeDecision) {
+        sendToMovebase();
+    }
 }
 
 /**
