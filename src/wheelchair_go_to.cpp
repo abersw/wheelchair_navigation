@@ -89,7 +89,8 @@ struct Decisions {
     float quat_w;
 };
 
-struct Decisions navigateToDecision;
+struct Decisions navigateToDecision[1000];
+int navigateToDecisionTimes = 0;
 struct Decisions objectDecisionStruct[10000]; //array for storing possible objects to navigate to
 struct Decisions roomDecisionStruct[10]; //array for storing possible rooms to navigate to
 int totalObjectDecisionStruct = 0;
@@ -146,7 +147,7 @@ void testFindUserInstruction(std::string userInstructionRaw) {
  * Function to send navigateToDecision struct to move_base goal topic for executing to path planner.
  */
 void sendToMovebase() {
-    cout << "navigating to " << navigateToDecision.id << ", " << navigateToDecision.name << endl;
+    cout << "navigating to " << navigateToDecision[navigateToDecisionTimes].id << ", " << navigateToDecision[navigateToDecisionTimes].name << endl;
     move_base_msgs::MoveBaseActionGoal chosenGoal;
 
     chosenGoal.header;
@@ -172,15 +173,16 @@ void sendToMovebase() {
 
     chosenGoal.goal.target_pose.pose;
     chosenGoal.goal.target_pose.pose.position;
-    chosenGoal.goal.target_pose.pose.position.x = navigateToDecision.point_x;
-    chosenGoal.goal.target_pose.pose.position.y = navigateToDecision.point_y;
-    chosenGoal.goal.target_pose.pose.position.z = navigateToDecision.point_z;
-    chosenGoal.goal.target_pose.pose.orientation.x = navigateToDecision.quat_x;
-    chosenGoal.goal.target_pose.pose.orientation.y = navigateToDecision.quat_y;
-    chosenGoal.goal.target_pose.pose.orientation.z = navigateToDecision.quat_z;
-    chosenGoal.goal.target_pose.pose.orientation.w = navigateToDecision.quat_w;
+    chosenGoal.goal.target_pose.pose.position.x = navigateToDecision[navigateToDecisionTimes].point_x;
+    chosenGoal.goal.target_pose.pose.position.y = navigateToDecision[navigateToDecisionTimes].point_y;
+    chosenGoal.goal.target_pose.pose.position.z = navigateToDecision[navigateToDecisionTimes].point_z;
+    chosenGoal.goal.target_pose.pose.orientation.x = navigateToDecision[navigateToDecisionTimes].quat_x;
+    chosenGoal.goal.target_pose.pose.orientation.y = navigateToDecision[navigateToDecisionTimes].quat_y;
+    chosenGoal.goal.target_pose.pose.orientation.z = navigateToDecision[navigateToDecisionTimes].quat_z;
+    chosenGoal.goal.target_pose.pose.orientation.w = navigateToDecision[navigateToDecisionTimes].quat_w;
 
     ptr_movebaseGoal_pub->publish(chosenGoal);
+    navigateToDecisionTimes++;
     cout << "published goal\n";
 }
 
@@ -219,21 +221,21 @@ int navigateToObjectWithRoom() {
     }
     //times the score with the confidence - less confident detections will be lower on the decision making scale
 
-    navigateToDecision.id = largestScoreID;
-    navigateToDecision.name = largestScoreName;
+    navigateToDecision[navigateToDecisionTimes].id = largestScoreID;
+    navigateToDecision[navigateToDecisionTimes].name = largestScoreName;
     for (int isNavDecision = 0; isNavDecision < totalObjectDecisionStruct; isNavDecision++) {
         if (largestScoreID == objectDecisionStruct[isNavDecision].id) {
             //if IDs match
-            navigateToDecision.confidence = objectDecisionStruct[isNavDecision].confidence;
+            navigateToDecision[navigateToDecisionTimes].confidence = objectDecisionStruct[isNavDecision].confidence;
             
-            navigateToDecision.point_x = objectDecisionStruct[isNavDecision].point_x;
-            navigateToDecision.point_y = objectDecisionStruct[isNavDecision].point_y;
-            navigateToDecision.point_z = objectDecisionStruct[isNavDecision].point_z;
+            navigateToDecision[navigateToDecisionTimes].point_x = objectDecisionStruct[isNavDecision].point_x;
+            navigateToDecision[navigateToDecisionTimes].point_y = objectDecisionStruct[isNavDecision].point_y;
+            navigateToDecision[navigateToDecisionTimes].point_z = objectDecisionStruct[isNavDecision].point_z;
 
-            navigateToDecision.quat_x = objectDecisionStruct[isNavDecision].quat_x;
-            navigateToDecision.quat_y = objectDecisionStruct[isNavDecision].quat_y;
-            navigateToDecision.quat_z = objectDecisionStruct[isNavDecision].quat_z;
-            navigateToDecision.quat_w = objectDecisionStruct[isNavDecision].quat_w;
+            navigateToDecision[navigateToDecisionTimes].quat_x = objectDecisionStruct[isNavDecision].quat_x;
+            navigateToDecision[navigateToDecisionTimes].quat_y = objectDecisionStruct[isNavDecision].quat_y;
+            navigateToDecision[navigateToDecisionTimes].quat_z = objectDecisionStruct[isNavDecision].quat_z;
+            navigateToDecision[navigateToDecisionTimes].quat_w = objectDecisionStruct[isNavDecision].quat_w;
 
             madeDecision = 1; //successfully allocated an object to navigate towards
         }
@@ -374,18 +376,18 @@ void startDecidingGoal(int navigateToState) {
                 cout << "total rooms decided " << totalRoomDecisionStruct << endl;
             }
             for (int isRoom = 0; isRoom < totalRoomDecisionStruct; isRoom++) {
-                navigateToDecision.id = roomDecisionStruct[isRoom].id;
-                navigateToDecision.name = roomDecisionStruct[isRoom].name;
-                //navigateToDecision.confidence; //no confidence available for room
+                navigateToDecision[navigateToDecisionTimes].id = roomDecisionStruct[isRoom].id;
+                navigateToDecision[navigateToDecisionTimes].name = roomDecisionStruct[isRoom].name;
+                //navigateToDecision[navigateToDecisionTimes].confidence; //no confidence available for room
 
-                navigateToDecision.point_x = roomDecisionStruct[isRoom].point_x;
-                navigateToDecision.point_y = roomDecisionStruct[isRoom].point_y;
-                navigateToDecision.point_z = roomDecisionStruct[isRoom].point_z;
+                navigateToDecision[navigateToDecisionTimes].point_x = roomDecisionStruct[isRoom].point_x;
+                navigateToDecision[navigateToDecisionTimes].point_y = roomDecisionStruct[isRoom].point_y;
+                navigateToDecision[navigateToDecisionTimes].point_z = roomDecisionStruct[isRoom].point_z;
 
-                navigateToDecision.quat_x = roomDecisionStruct[isRoom].quat_x;
-                navigateToDecision.quat_y = roomDecisionStruct[isRoom].quat_y;
-                navigateToDecision.quat_z = roomDecisionStruct[isRoom].quat_z;
-                navigateToDecision.quat_w = roomDecisionStruct[isRoom].quat_w;
+                navigateToDecision[navigateToDecisionTimes].quat_x = roomDecisionStruct[isRoom].quat_x;
+                navigateToDecision[navigateToDecisionTimes].quat_y = roomDecisionStruct[isRoom].quat_y;
+                navigateToDecision[navigateToDecisionTimes].quat_z = roomDecisionStruct[isRoom].quat_z;
+                navigateToDecision[navigateToDecisionTimes].quat_w = roomDecisionStruct[isRoom].quat_w;
             }
             break;
     }
