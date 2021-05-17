@@ -89,8 +89,8 @@ struct Decisions {
     float quat_w;
 };
 
-struct Decisions navigateToDecision[1000];
-int navigateToDecisionTimes = 0;
+struct Decisions navigateToDecision[1000]; //struct array for storing decisions for move base goal
+int navigateToDecisionTimes = 0; //current position to store decision in struct array
 struct Decisions objectDecisionStruct[10000]; //array for storing possible objects to navigate to
 struct Decisions roomDecisionStruct[10]; //array for storing possible rooms to navigate to
 int totalObjectDecisionStruct = 0;
@@ -182,7 +182,7 @@ void sendToMovebase() {
     chosenGoal.goal.target_pose.pose.orientation.w = navigateToDecision[navigateToDecisionTimes].quat_w;
 
     ptr_movebaseGoal_pub->publish(chosenGoal);
-    navigateToDecisionTimes++;
+    navigateToDecisionTimes++; //iterate to next position for decision struct
     cout << "published goal\n";
 }
 
@@ -258,6 +258,8 @@ int navigateToObjectWithoutRoom() {
     //object context data in contextDecisionStruct
 
     //get the highest score
+    //get history
+    //get current room
 
     return madeDecision;
 }
