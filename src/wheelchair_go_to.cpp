@@ -198,6 +198,7 @@ int navigateToObjectWithRoom() {
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
 
+    //would probably be more useful to sort from highest to lowest score
     //get the highest score
     float largestScore = 0;
     int largestScoreID = 0;
@@ -257,9 +258,9 @@ int navigateToObjectWithoutRoom() {
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
 
-    //get the highest score
-    //get history
-    //get current room
+    //sort from highest to lowest score - get the highest score
+    //get history - take room from previous object
+    //get current room - from the room detection node
 
     return madeDecision;
 }
