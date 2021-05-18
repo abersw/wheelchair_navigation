@@ -143,6 +143,67 @@ void testFindUserInstruction(std::string userInstructionRaw) {
     }
 }
 
+void sortDecisionStruct() {
+    //sort elements in decision array
+}
+
+void swapSortedObjects(struct Context *tempSortStruct, int isScore, int minScoreAt) {
+    //add current object context to temp struct
+    tempSortStruct->object_id = contextDecisionStruct[isScore].object_id;
+    tempSortStruct->object_name = contextDecisionStruct[isScore].object_name;
+    tempSortStruct->object_confidence = contextDecisionStruct[isScore].object_confidence;
+    tempSortStruct->object_detected = contextDecisionStruct[isScore].object_detected;
+
+    tempSortStruct->object_weighting = contextDecisionStruct[isScore].object_weighting;
+    tempSortStruct->object_uniqueness = contextDecisionStruct[isScore].object_uniqueness;
+    tempSortStruct->object_score = contextDecisionStruct[isScore].object_score;
+    tempSortStruct->object_instances = contextDecisionStruct[isScore].object_instances;
+
+    //add minimum score object in current place
+    contextDecisionStruct[isScore].object_id = contextDecisionStruct[minScoreAt].object_id;
+    contextDecisionStruct[isScore].object_name = contextDecisionStruct[minScoreAt].object_name;
+    contextDecisionStruct[isScore].object_confidence = contextDecisionStruct[minScoreAt].object_confidence;
+    contextDecisionStruct[isScore].object_detected = contextDecisionStruct[minScoreAt].object_detected;
+
+    contextDecisionStruct[isScore].object_weighting = contextDecisionStruct[minScoreAt].object_weighting;
+    contextDecisionStruct[isScore].object_uniqueness = contextDecisionStruct[minScoreAt].object_uniqueness;
+    contextDecisionStruct[isScore].object_score = contextDecisionStruct[minScoreAt].object_score;
+    contextDecisionStruct[isScore].object_instances = contextDecisionStruct[minScoreAt].object_instances;
+
+    //add temp struct object in its place
+    contextDecisionStruct[minScoreAt].object_id = tempSortStruct->object_id;
+    contextDecisionStruct[minScoreAt].object_name = tempSortStruct->object_name;
+    contextDecisionStruct[minScoreAt].object_confidence = tempSortStruct->object_confidence;
+    contextDecisionStruct[minScoreAt].object_detected = tempSortStruct->object_detected;
+
+    contextDecisionStruct[minScoreAt].object_weighting = tempSortStruct->object_weighting;
+    contextDecisionStruct[minScoreAt].object_uniqueness = tempSortStruct->object_uniqueness;
+    contextDecisionStruct[minScoreAt].object_score = tempSortStruct->object_score;
+    contextDecisionStruct[minScoreAt].object_instances = tempSortStruct->object_instances;
+}
+
+void selectionSortContext() {
+    //sort elements in context array
+    int isScore, nextScore, minScoreAt, minScoreID = 0;
+    float minScore;
+    for (isScore = 0; isScore < (totalContextDecisionStruct - 1); isScore++) { //iterate through entire array until last element
+        minScoreAt = isScore; //current pos is set as min, unless ...
+        minScoreID = contextDecisionStruct[isScore].object_id; //get current ID
+        minScore = contextDecisionStruct[isScore].object_score; //get current score
+        for (nextScore = (isScore + 1); nextScore < totalContextDecisionStruct; nextScore++) {
+            if (minScore < contextDecisionStruct[nextScore].object_score) {
+                minScoreAt = nextScore; //the position of the min element
+                minScoreID = contextDecisionStruct[nextScore].object_id; //set object id of min score
+                minScore = contextDecisionStruct[nextScore].object_score; //set object min score
+            }
+        }
+        struct Context tempSortStruct; //temporary storage struct for temp sort object
+        swapSortedObjects(&tempSortStruct, isScore, minScoreAt); //swap function for objects
+    }
+
+    sortDecisionStruct(); //sort decision struct to match order of context struct array
+}
+
 /**
  * Function to send navigateToDecision struct to move_base goal topic for executing to path planner.
  */
@@ -197,6 +258,7 @@ int navigateToObjectWithRoom() {
 
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
+    selectionSortContext(); //sort via context score
 
     //would probably be more useful to sort from highest to lowest score
     //get the highest score
