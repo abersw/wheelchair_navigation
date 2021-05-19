@@ -145,6 +145,34 @@ void testFindUserInstruction(std::string userInstructionRaw) {
 
 void sortDecisionStruct() {
     //sort elements in decision array
+    //rather than create a brand new struct - use the swapping function, like the one below
+    for (int isContext = 0; isContext < totalContextDecisionStruct; isContext++) {
+        int currentContextID = contextDecisionStruct[isContext].object_id;
+        for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject++) {
+            int currentObjectID = objectDecisionStruct[isObject].id;
+            if (currentContextID == currentObjectID) {
+                if (isContext == isObject) {
+                    //object already matches the position of context struct array
+                }
+                else {
+                    //swap object positions:
+                    struct Decisions tempSortStruct;
+                    //take object decision struct using isContext position and save to temp struct
+                    tempSortStruct.id = objectDecisionStruct[isContext].id;
+                    tempSortStruct.name = objectDecisionStruct[isContext].name;
+                    //assign found object - isContext from object decision struct to object decision struct using isContext
+                    objectDecisionStruct[isContext].id = objectDecisionStruct[isObject].id;
+                    objectDecisionStruct[isContext].name = objectDecisionStruct[isObject].name;
+                    //assign temp struct to object decision struct in position isContext
+                    objectDecisionStruct[isObject].id = tempSortStruct.id;
+                    objectDecisionStruct[isObject].name = tempSortStruct.name;
+                }
+            }
+            else {
+                //don't do anything if objects don't match
+            }
+        }
+    }
 }
 
 void swapSortedObjects(struct Context *tempSortStruct, int isScore, int minScoreAt) {
