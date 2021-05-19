@@ -160,12 +160,44 @@ void sortDecisionStruct() {
                     //take object decision struct using isContext position and save to temp struct
                     tempSortStruct.id = objectDecisionStruct[isContext].id;
                     tempSortStruct.name = objectDecisionStruct[isContext].name;
+                    tempSortStruct.confidence = objectDecisionStruct[isContext].confidence;
+
+                    tempSortStruct.point_x = objectDecisionStruct[isContext].point_x;
+                    tempSortStruct.point_y = objectDecisionStruct[isContext].point_y;
+                    tempSortStruct.point_z = objectDecisionStruct[isContext].point_z;
+
+                    tempSortStruct.quat_x = objectDecisionStruct[isContext].quat_x;
+                    tempSortStruct.quat_y = objectDecisionStruct[isContext].quat_y;
+                    tempSortStruct.quat_z = objectDecisionStruct[isContext].quat_z;
+                    tempSortStruct.quat_w = objectDecisionStruct[isContext].quat_w;
+
                     //assign found object - isContext from object decision struct to object decision struct using isContext
                     objectDecisionStruct[isContext].id = objectDecisionStruct[isObject].id;
                     objectDecisionStruct[isContext].name = objectDecisionStruct[isObject].name;
+                    objectDecisionStruct[isContext].confidence = objectDecisionStruct[isObject].confidence;
+
+                    objectDecisionStruct[isContext].point_x = objectDecisionStruct[isObject].point_x;
+                    objectDecisionStruct[isContext].point_y = objectDecisionStruct[isObject].point_y;
+                    objectDecisionStruct[isContext].point_z = objectDecisionStruct[isObject].point_z;
+
+                    objectDecisionStruct[isContext].quat_x = objectDecisionStruct[isObject].quat_x;
+                    objectDecisionStruct[isContext].quat_y = objectDecisionStruct[isObject].quat_y;
+                    objectDecisionStruct[isContext].quat_z = objectDecisionStruct[isObject].quat_z;
+                    objectDecisionStruct[isContext].quat_w = objectDecisionStruct[isObject].quat_w;
+
                     //assign temp struct to object decision struct in position isContext
                     objectDecisionStruct[isObject].id = tempSortStruct.id;
                     objectDecisionStruct[isObject].name = tempSortStruct.name;
+                    objectDecisionStruct[isObject].confidence = tempSortStruct.confidence;
+
+                    objectDecisionStruct[isObject].point_x = tempSortStruct.point_x;
+                    objectDecisionStruct[isObject].point_y = tempSortStruct.point_y;
+                    objectDecisionStruct[isObject].point_z = tempSortStruct.point_z;
+
+                    objectDecisionStruct[isObject].quat_x = tempSortStruct.quat_x;
+                    objectDecisionStruct[isObject].quat_y = tempSortStruct.quat_y;
+                    objectDecisionStruct[isObject].quat_z = tempSortStruct.quat_z;
+                    objectDecisionStruct[isObject].quat_w = tempSortStruct.quat_w;
                 }
             }
             else {
