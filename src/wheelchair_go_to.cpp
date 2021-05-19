@@ -320,9 +320,12 @@ int navigateToObjectWithRoom() {
     //object context data in contextDecisionStruct
     selectionSortContext(); //sort via context score
 
+    for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject++) {
+        cout << objectDecisionStruct[isObject].id << ", " << contextDecisionStruct[isObject].object_id << ", " << contextDecisionStruct[isObject].object_score << endl;
+    }
     //would probably be more useful to sort from highest to lowest score
     //get the highest score
-    float largestScore = 0;
+    /*float largestScore = 0;
     int largestScoreID = 0;
     std::string largestScoreName;
     int largestPosScore = 0;
@@ -341,9 +344,9 @@ int navigateToObjectWithRoom() {
     }
     if (DEBUG_navigateToObjectWithRoom) {
         cout << "largest score is " << largestScore << " at context position " << largestPosScore << endl;
-    }
+    }*/
     //times the score with the confidence - less confident detections will be lower on the decision making scale
-
+/*
     navigateToDecision[navigateToDecisionTimes].id = largestScoreID;
     navigateToDecision[navigateToDecisionTimes].name = largestScoreName;
     for (int isNavDecision = 0; isNavDecision < totalObjectDecisionStruct; isNavDecision++) {
@@ -363,6 +366,7 @@ int navigateToObjectWithRoom() {
             madeDecision = 1; //successfully allocated an object to navigate towards
         }
     }
+*/
     return madeDecision;
 }
 
