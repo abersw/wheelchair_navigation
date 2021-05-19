@@ -321,7 +321,10 @@ int navigateToObjectWithRoom() {
     selectionSortContext(); //sort via context score
 
     for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject++) {
-        cout << objectDecisionStruct[isObject].id << ", " << contextDecisionStruct[isObject].object_id << ", " << contextDecisionStruct[isObject].object_score << endl;
+        cout << "swap status: " <<
+        objectDecisionStruct[isObject].id << ", " <<
+        contextDecisionStruct[isObject].object_id << ", " << 
+        contextDecisionStruct[isObject].object_score << endl;
     }
     //would probably be more useful to sort from highest to lowest score
     //get the highest score
@@ -392,8 +395,8 @@ int navigateToObjectWithoutRoom() {
 }
 
 void createContextDecisionStruct() {
-    static const bool DEBUG_createContextDecisionStruct_1 = 1;
-    static const bool DEBUG_createContextDecisionStruct_2 = 1;
+    static const bool DEBUG_createContextDecisionStruct_1 = 0;
+    static const bool DEBUG_createContextDecisionStruct_2 = 0;
 
     //add first part of context decision struct assignment to this function
     int objectCount = 0;
