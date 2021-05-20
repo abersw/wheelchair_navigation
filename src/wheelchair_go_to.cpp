@@ -20,6 +20,7 @@
 using namespace std;
 
 const bool DEBUG_testFindUserInstruction = 0;
+const bool DEBUG_selectionSortContext = 1;
 const bool DEBUG_navigateToObjectWithRoom = 1;
 const bool DEBUG_navigateToObjectWithoutRoom = 1;
 const bool DEBUG_startDecidingGoal = 1;
@@ -262,6 +263,15 @@ void selectionSortContext() {
     }
 
     sortDecisionStruct(); //sort decision struct to match order of context struct array
+
+    if (DEBUG_selectionSortContext) {
+        for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject++) {
+            cout << "swap status: " <<
+            objectDecisionStruct[isObject].id << ", " <<
+            contextDecisionStruct[isObject].object_id << ", " << 
+            contextDecisionStruct[isObject].object_score << endl;
+        }
+    }
 }
 
 /**
@@ -316,16 +326,11 @@ int navigateToObjectWithRoom() {
     printSeparator(0);
     int madeDecision = 0;
 
-    //object location data in objectDecisionStruct
-    //object context data in contextDecisionStruct
     selectionSortContext(); //sort via context score
 
-    for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject++) {
-        cout << "swap status: " <<
-        objectDecisionStruct[isObject].id << ", " <<
-        contextDecisionStruct[isObject].object_id << ", " << 
-        contextDecisionStruct[isObject].object_score << endl;
-    }
+    //object location data in objectDecisionStruct
+    //object context data in contextDecisionStruct
+
     //would probably be more useful to sort from highest to lowest score
     //get the highest score
     /*float largestScore = 0;
