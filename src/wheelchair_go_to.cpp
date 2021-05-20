@@ -187,7 +187,10 @@ void sendToMovebase() {
     cout << "published goal\n";
 }
 
-void sortDecisionStruct() {
+/**
+ * Function for sorting object decision struct array via the order of objects in context decision struct array
+ */
+void swapDecisionStruct() {
     //sort elements in decision array
     //rather than create a brand new struct - use the swapping function, like the one below
     for (int isContext = 0; isContext < totalContextDecisionStruct; isContext++) {
@@ -251,7 +254,10 @@ void sortDecisionStruct() {
     }
 }
 
-void swapSortedObjects(struct Context *tempSortStruct, int isScore, int minScoreAt) {
+/**
+ * Function for swapping elements in context decision struct elements 
+ */
+void swapContextObjects(struct Context *tempSortStruct, int isScore, int minScoreAt) {
     //add current object context to temp struct
     tempSortStruct->object_id = contextDecisionStruct[isScore].object_id;
     tempSortStruct->object_name = contextDecisionStruct[isScore].object_name;
@@ -286,6 +292,9 @@ void swapSortedObjects(struct Context *tempSortStruct, int isScore, int minScore
     contextDecisionStruct[minScoreAt].object_instances = tempSortStruct->object_instances;
 }
 
+/**
+ * Function to sort in descending order, all context decision struct elements by object score  
+ */
 void selectionSortContext() {
     //sort elements in context array
     int isScore, nextScore, minScoreAt, minScoreID = 0;
@@ -302,10 +311,10 @@ void selectionSortContext() {
             }
         }
         struct Context tempSortStruct; //temporary storage struct for temp sort object
-        swapSortedObjects(&tempSortStruct, isScore, minScoreAt); //swap function for objects
+        swapContextObjects(&tempSortStruct, isScore, minScoreAt); //swap function for objects
     }
 
-    sortDecisionStruct(); //sort decision struct to match order of context struct array
+    swapDecisionStruct(); //sort decision struct to match order of context struct array
 
     if (DEBUG_selectionSortContext) {
         for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject++) {
