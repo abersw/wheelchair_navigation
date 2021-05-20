@@ -144,6 +144,49 @@ void testFindUserInstruction(std::string userInstructionRaw) {
     }
 }
 
+/**
+ * Function to send navigateToDecision struct to move_base goal topic for executing to path planner.
+ */
+void sendToMovebase() {
+    cout << "navigating to " << navigateToDecision[navigateToDecisionTimes].id << ", " << navigateToDecision[navigateToDecisionTimes].name << endl;
+    move_base_msgs::MoveBaseActionGoal chosenGoal;
+
+    chosenGoal.header;
+    chosenGoal.header.seq = 0;
+    chosenGoal.header.stamp;
+    chosenGoal.header.stamp.sec = 0;
+    chosenGoal.header.stamp.nsec = 0;
+    chosenGoal.header.frame_id = "";
+
+    chosenGoal.goal_id;
+    chosenGoal.goal_id.stamp.sec = 0;
+    chosenGoal.goal_id.stamp.nsec = 0;
+    chosenGoal.goal_id.id;
+
+    chosenGoal.goal;
+    chosenGoal.goal.target_pose;
+    chosenGoal.goal.target_pose.header;
+    chosenGoal.goal.target_pose.header.seq = 0;
+    chosenGoal.goal.target_pose.header.stamp;
+    chosenGoal.goal.target_pose.header.stamp.sec = 0;
+    chosenGoal.goal.target_pose.header.stamp.nsec = 0;
+    chosenGoal.goal.target_pose.header.frame_id = "map";
+
+    chosenGoal.goal.target_pose.pose;
+    chosenGoal.goal.target_pose.pose.position;
+    chosenGoal.goal.target_pose.pose.position.x = navigateToDecision[navigateToDecisionTimes].point_x;
+    chosenGoal.goal.target_pose.pose.position.y = navigateToDecision[navigateToDecisionTimes].point_y;
+    chosenGoal.goal.target_pose.pose.position.z = navigateToDecision[navigateToDecisionTimes].point_z;
+    chosenGoal.goal.target_pose.pose.orientation.x = navigateToDecision[navigateToDecisionTimes].quat_x;
+    chosenGoal.goal.target_pose.pose.orientation.y = navigateToDecision[navigateToDecisionTimes].quat_y;
+    chosenGoal.goal.target_pose.pose.orientation.z = navigateToDecision[navigateToDecisionTimes].quat_z;
+    chosenGoal.goal.target_pose.pose.orientation.w = navigateToDecision[navigateToDecisionTimes].quat_w;
+
+    ptr_movebaseGoal_pub->publish(chosenGoal);
+    navigateToDecisionTimes++; //iterate to next position for decision struct
+    cout << "published goal\n";
+}
+
 void sortDecisionStruct() {
     //sort elements in decision array
     //rather than create a brand new struct - use the swapping function, like the one below
@@ -272,49 +315,6 @@ void selectionSortContext() {
             contextDecisionStruct[isObject].object_score << endl;
         }
     }
-}
-
-/**
- * Function to send navigateToDecision struct to move_base goal topic for executing to path planner.
- */
-void sendToMovebase() {
-    cout << "navigating to " << navigateToDecision[navigateToDecisionTimes].id << ", " << navigateToDecision[navigateToDecisionTimes].name << endl;
-    move_base_msgs::MoveBaseActionGoal chosenGoal;
-
-    chosenGoal.header;
-    chosenGoal.header.seq = 0;
-    chosenGoal.header.stamp;
-    chosenGoal.header.stamp.sec = 0;
-    chosenGoal.header.stamp.nsec = 0;
-    chosenGoal.header.frame_id = "";
-
-    chosenGoal.goal_id;
-    chosenGoal.goal_id.stamp.sec = 0;
-    chosenGoal.goal_id.stamp.nsec = 0;
-    chosenGoal.goal_id.id;
-
-    chosenGoal.goal;
-    chosenGoal.goal.target_pose;
-    chosenGoal.goal.target_pose.header;
-    chosenGoal.goal.target_pose.header.seq = 0;
-    chosenGoal.goal.target_pose.header.stamp;
-    chosenGoal.goal.target_pose.header.stamp.sec = 0;
-    chosenGoal.goal.target_pose.header.stamp.nsec = 0;
-    chosenGoal.goal.target_pose.header.frame_id = "map";
-
-    chosenGoal.goal.target_pose.pose;
-    chosenGoal.goal.target_pose.pose.position;
-    chosenGoal.goal.target_pose.pose.position.x = navigateToDecision[navigateToDecisionTimes].point_x;
-    chosenGoal.goal.target_pose.pose.position.y = navigateToDecision[navigateToDecisionTimes].point_y;
-    chosenGoal.goal.target_pose.pose.position.z = navigateToDecision[navigateToDecisionTimes].point_z;
-    chosenGoal.goal.target_pose.pose.orientation.x = navigateToDecision[navigateToDecisionTimes].quat_x;
-    chosenGoal.goal.target_pose.pose.orientation.y = navigateToDecision[navigateToDecisionTimes].quat_y;
-    chosenGoal.goal.target_pose.pose.orientation.z = navigateToDecision[navigateToDecisionTimes].quat_z;
-    chosenGoal.goal.target_pose.pose.orientation.w = navigateToDecision[navigateToDecisionTimes].quat_w;
-
-    ptr_movebaseGoal_pub->publish(chosenGoal);
-    navigateToDecisionTimes++; //iterate to next position for decision struct
-    cout << "published goal\n";
 }
 
 /**
