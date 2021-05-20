@@ -335,7 +335,7 @@ int navigateToObjectWithRoom() {
     printSeparator(0);
     int madeDecision = 0;
 
-    selectionSortContext(); //sort via context score
+    selectionSortContext(); //sort object and context decision struct via object score
 
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
@@ -393,11 +393,10 @@ int navigateToObjectWithRoom() {
  * @return set to 1 if successfully allocated an object to navigate towards
  */
 int navigateToObjectWithoutRoom() {
-    static const bool DEBUG_navigateToObjectWithoutRoom_1 = 0;
-    static const bool DEBUG_navigateToObjectWithoutRoom_2 = 0;
     int madeDecision = 0;
 
-    
+    selectionSortContext(); //sort object and context decision struct via object score
+
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
 
