@@ -353,6 +353,8 @@ int navigateToObjectWithRoom() {
     navigateToDecision[navigateToDecisionTimes].quat_z = objectDecisionStruct[decidedPos].quat_z;
     navigateToDecision[navigateToDecisionTimes].quat_w = objectDecisionStruct[decidedPos].quat_w;
 
+    madeDecision = 1; //successfully allocated an object to navigate towards
+
     //would probably be more useful to sort from highest to lowest score
     //get the highest score
     /*float largestScore = 0;
@@ -412,6 +414,22 @@ int navigateToObjectWithoutRoom() {
 
     //object location data in objectDecisionStruct
     //object context data in contextDecisionStruct
+
+    int decidedPos = 0;
+    navigateToDecision[navigateToDecisionTimes].id = objectDecisionStruct[decidedPos].id;
+    navigateToDecision[navigateToDecisionTimes].name = objectDecisionStruct[decidedPos].name;
+    navigateToDecision[navigateToDecisionTimes].confidence = objectDecisionStruct[decidedPos].confidence;
+
+    navigateToDecision[navigateToDecisionTimes].point_x = objectDecisionStruct[decidedPos].point_x;
+    navigateToDecision[navigateToDecisionTimes].point_y = objectDecisionStruct[decidedPos].point_y;
+    navigateToDecision[navigateToDecisionTimes].point_z = objectDecisionStruct[decidedPos].point_z;
+
+    navigateToDecision[navigateToDecisionTimes].quat_x = objectDecisionStruct[decidedPos].quat_x;
+    navigateToDecision[navigateToDecisionTimes].quat_y = objectDecisionStruct[decidedPos].quat_y;
+    navigateToDecision[navigateToDecisionTimes].quat_z = objectDecisionStruct[decidedPos].quat_z;
+    navigateToDecision[navigateToDecisionTimes].quat_w = objectDecisionStruct[decidedPos].quat_w;
+
+    madeDecision = 1; //successfully allocated an object to navigate towards
 
     //sort from highest to lowest score - get the highest score
     //get history - take room from previous object
