@@ -318,10 +318,13 @@ void selectionSortContext() {
 
     if (DEBUG_selectionSortContext) {
         for (int isObject = 0; isObject < totalObjectDecisionStruct; isObject++) {
-            cout << "swap status: " <<
-            objectDecisionStruct[isObject].id << ", " <<
-            contextDecisionStruct[isObject].object_id << ", " << 
-            contextDecisionStruct[isObject].object_score << endl;
+            cout << "swap status: id:" <<
+            objectDecisionStruct[isObject].id << ", id:" <<
+            contextDecisionStruct[isObject].object_id << ", name: " <<
+            objectDecisionStruct[isObject].id << ", score: " << 
+            contextDecisionStruct[isObject].object_score << ", w: " << 
+            contextDecisionStruct[isObject].object_weighting << ", u: " << 
+            contextDecisionStruct[isObject].object_uniqueness << endl;
         }
     }
 }
