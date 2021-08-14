@@ -22,6 +22,8 @@ const bool DEBUG_roomObjectCallback = 0;
 const bool DEBUG_objectContextCallback = 0;
 const bool DEBUG_main = 0;
 
+TofToolBox *tofToolBox;
+
 struct Objects { //struct for publishing topic
     int id; //get object id from ros msg
     string object_name; //get object name/class
@@ -107,18 +109,6 @@ int totalContextDecisionStruct = 0;
 
 ros::Publisher *ptr_espeak_pub; //publisher for verbal feedback from wheelchair
 ros::Publisher *ptr_movebaseGoal_pub; //publisher for sending move_base goals
-
-//function for printing space sizes
-void printSeparator(int spaceSize) {
-	if (spaceSize == 0) {
-		printf("--------------------------------------------\n");
-	}
-	else {
-		printf("\n");
-		printf("--------------------------------------------\n");
-		printf("\n");
-	}
-}
 
 /**
  * Test function for finding strings within a long string 
@@ -325,7 +315,7 @@ void selectionSortContext() {
  * @return set to 1 if successfully allocated an object to navigate towards
  */
 int navigateToObjectWithRoom() {
-    printSeparator(0);
+    tofToolBox->printSeparator(0);
     int madeDecision = 0;
 
     selectionSortContext(); //sort object and context decision struct via object score
@@ -863,6 +853,9 @@ void objectContextCallback(const wheelchair_msgs::objectContext objContext) {
  * @return 0 - end of program
  */
 int main(int argc, char** argv) {
+    TofToolBox tofToolBox_local;
+    tofToolBox = &tofToolBox_local;
+
     ros::init(argc, argv, "wheelchair_go_to");
     ros::NodeHandle nodeHandler;
     ros::Subscriber userInstruction_sub = nodeHandler.subscribe("/wheelchair_robot/user/instruction", 10, userInstructionCallback);
