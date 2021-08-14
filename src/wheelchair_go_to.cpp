@@ -5,18 +5,8 @@
  * Status: Pre-Alpha
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "ros/ros.h" //main ROS library
-#include "wheelchair_msgs/roomToObjects.h" //assign rooms to objects
-#include "wheelchair_msgs/roomLocations.h" //translations of rooms
-#include "wheelchair_msgs/objectLocations.h" //translations of all objects
-#include "wheelchair_msgs/objectContext.h" //object context info
-#include "move_base_msgs/MoveBaseActionGoal.h" //move_base msg for sending map goals
-#include "std_msgs/String.h" //ROS msg type string
-#include <algorithm>
-#include <sstream>
+#include "tof_tool/tof_tool_box.h"
+
 using namespace std;
 
 const bool DEBUG_testFindUserInstruction = 0;
